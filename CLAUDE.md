@@ -60,7 +60,7 @@ Ne jamais coder une couleur, un rayon ou une taille de texte en dur : utiliser l
 ## Interfaces
 
 - Les 40 écrans existent sur le web et le mobile avec les mêmes routes : `/feed`, `/publication/[id]`, `/membre/[username]`, `/anime/[id]`, `/conversation/[id]`, `/guild`, `/arc`, `/quiz`… Le splash (`/` sur mobile) n'existe que sur mobile ; sur le web, `/` est l'écran Bienvenue.
-- Web : composants dans `apps/web/src/components` (`ui.tsx`, `client.tsx`, `nav.tsx`). Groupes de routes `(auth)` colonne centrée, `(app)` barre latérale sur ordinateur et onglets en bas sur mobile, `(immersif)` plein écran. Thème mémorisé dans `localStorage` (`tomo-theme`).
+- Web : composants dans `apps/web/src/components` (`ui.tsx`, `client.tsx`, `nav.tsx`). Groupes de routes `(auth)` colonne centrée, `(app)` barre latérale sur ordinateur et onglets en bas sur mobile, `(immersif)` plein écran. Thème mémorisé dans `localStorage` (`tomo-theme`). PWA : `app/manifest.ts`, icônes dans `public/icons`, service worker `public/sw.js` (page `/hors-ligne`, actif en production seulement ; changer `CACHE` pour forcer une mise à jour).
 - Mobile : composants dans `apps/mobile/src/components`. Tout texte passe par `<T variant weight>` (le texte n'hérite pas de la couleur en React Native), les icônes par `<Icon name className="text-…">`, les écrans par `<Screen>`. Thème forcé via `Appearance` et mémorisé avec AsyncStorage. NativeWind en `inlineRem: 16`.
 - `cx()` fusionne les classes avec tailwind-merge : le `className` passé à un composant l'emporte sur son style par défaut.
 

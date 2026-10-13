@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { colors } from '@tomodachi/design-tokens';
+import { RegisterServiceWorker } from '@/components/pwa';
 import './globals.css';
 
 // Nunito auto-hébergée (police variable 200-1000) : pas de dépendance à Google Fonts au build.
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
   title: { default: 'Tomodachi', template: '%s · Tomodachi' },
   description: 'Le réseau social des otakus : guilds, nakama, watch parties et arcs de saison.',
   applicationName: 'Tomodachi',
+  appleWebApp: { capable: true, title: 'Tomodachi', statusBarStyle: 'default' },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
@@ -35,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       </head>
       <body className="flex min-h-full flex-col bg-background font-sans font-semibold text-ink">
         {children}
+        <RegisterServiceWorker />
       </body>
     </html>
   );
