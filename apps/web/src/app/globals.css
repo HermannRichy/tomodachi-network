@@ -3,3 +3,14 @@
 
 /* Les sources Tailwind des packages partagés, si on y met des composants plus tard. */
 @source '../../../../packages';
+
+@layer base {
+  :where(a, button, input, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--tomo-primary);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='button'] {
+    cursor: pointer;
+  }
+}

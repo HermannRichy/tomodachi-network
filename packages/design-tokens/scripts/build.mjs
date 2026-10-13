@@ -105,9 +105,9 @@ const preset = {
       colors: Object.fromEntries(colors.map((c) => [c.key, `rgb(var(--tomo-${c.key}) / <alpha-value>)`])),
       borderRadius: radius,
       borderWidth: { 'depth-sm': depth['depth-sm'], 'depth-md': depth['depth-md'], 'depth-lg': depth['depth-lg'] },
-      fontSize: Object.fromEntries(
-        textStyles.map((s) => [s.name, [s.fontSize, { lineHeight: s.lineHeight, fontWeight: String(s.fontWeight) }]]),
-      ),
+      // Pas de fontWeight ici : sur Android, une graisse combinée à une famille Nunito chargée
+      // fait retomber sur la police système. La graisse passe par font-nunito-*.
+      fontSize: Object.fromEntries(textStyles.map((s) => [s.name, [s.fontSize, { lineHeight: s.lineHeight }]])),
       // En React Native, chaque graisse de Nunito est une famille distincte.
       fontFamily: {
         nunito: ['Nunito_600SemiBold'],

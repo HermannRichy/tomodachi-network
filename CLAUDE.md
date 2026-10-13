@@ -13,6 +13,7 @@ pnpm workspaces + Turborepo. Node 22, pnpm 10.
 | `apps/backend` | NestJS 12 (ESM), bientôt Prisma + PostgreSQL + Better Auth |
 | `packages/design-tokens` | Source de vérité du design system : `tokens.json` → CSS web, preset NativeWind, constantes TS |
 | `packages/types` | Schémas Zod et types partagés entre API, web et mobile |
+| `packages/fixtures` | Données d'exemple des maquettes, affichées par le web et le mobile en attendant l'API |
 | `packages/config` | `tsconfig.base.json` partagé |
 | `infra/docker` | `docker-compose.yml` (PostgreSQL 17, Redis 7) |
 | `docs/maquettes` | Les 40 écrans de référence (spécification visuelle) |
@@ -53,7 +54,15 @@ Ne jamais coder une couleur, un rayon ou une taille de texte en dur : utiliser l
 - Rayons : `rounded-sm` 8, `rounded-md` 14, `rounded-lg` 18 (cartes, boutons), `rounded-xl` 28, `rounded-pill`.
 - Icônes Phosphor, graisse Bold ; Fill pour l'onglet actif. Pas d'émoji dans l'interface.
 - Clair et sombre obligatoires, cibles tactiles de 44 px minimum, contraste 4,5:1.
-- Mascotte : Kami-sama, slime bleu à auréole dorée (`packages/design-tokens/assets/kami-sama.svg`), incarne l'administration.
+- Mascotte : Kami-sama, slime bleu à auréole dorée (`packages/design-tokens/assets/kami-sama.svg`, variante `kami-sama-mono.svg`), incarne l'administration. C'est aussi le favicon, le logo et l'icône de l'app.
+- Couleurs fixes (identiques dans les deux thèmes) : `avatar-1…6` (+ `-ink`), `poster-1…6` (affiches et emblèmes de guild), `media`, `media-video`, `media-live`, `on-media`, `hang`, `discord`, `scrim` (avec opacité). Style de texte `text-hero` pour les chiffres géants.
+
+## Interfaces
+
+- Les 40 écrans existent sur le web et le mobile avec les mêmes routes : `/feed`, `/publication/[id]`, `/membre/[username]`, `/anime/[id]`, `/conversation/[id]`, `/guild`, `/arc`, `/quiz`… Le splash (`/` sur mobile) n'existe que sur mobile ; sur le web, `/` est l'écran Bienvenue.
+- Web : composants dans `apps/web/src/components` (`ui.tsx`, `client.tsx`, `nav.tsx`). Groupes de routes `(auth)` colonne centrée, `(app)` barre latérale sur ordinateur et onglets en bas sur mobile, `(immersif)` plein écran. Thème mémorisé dans `localStorage` (`tomo-theme`).
+- Mobile : composants dans `apps/mobile/src/components`. Tout texte passe par `<T variant weight>` (le texte n'hérite pas de la couleur en React Native), les icônes par `<Icon name className="text-…">`, les écrans par `<Screen>`. Thème forcé via `Appearance` et mémorisé avec AsyncStorage. NativeWind en `inlineRem: 16`.
+- `cx()` fusionne les classes avec tailwind-merge : le `className` passé à un composant l'emporte sur son style par défaut.
 
 ## Vocabulaire du produit
 

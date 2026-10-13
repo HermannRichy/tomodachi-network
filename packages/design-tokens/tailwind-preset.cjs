@@ -29,11 +29,41 @@ module.exports = {
         "success-soft": "rgb(var(--tomo-success-soft) / <alpha-value>)",
         "success-ink": "rgb(var(--tomo-success-ink) / <alpha-value>)",
         "danger": "rgb(var(--tomo-danger) / <alpha-value>)",
+        "danger-depth": "rgb(var(--tomo-danger-depth) / <alpha-value>)",
         "on-danger": "rgb(var(--tomo-on-danger) / <alpha-value>)",
         "danger-soft": "rgb(var(--tomo-danger-soft) / <alpha-value>)",
         "danger-ink": "rgb(var(--tomo-danger-ink) / <alpha-value>)",
         "slime": "rgb(var(--tomo-slime) / <alpha-value>)",
-        "slime-depth": "rgb(var(--tomo-slime-depth) / <alpha-value>)"
+        "slime-depth": "rgb(var(--tomo-slime-depth) / <alpha-value>)",
+        "avatar-1": "rgb(var(--tomo-avatar-1) / <alpha-value>)",
+        "avatar-1-ink": "rgb(var(--tomo-avatar-1-ink) / <alpha-value>)",
+        "avatar-2": "rgb(var(--tomo-avatar-2) / <alpha-value>)",
+        "avatar-2-ink": "rgb(var(--tomo-avatar-2-ink) / <alpha-value>)",
+        "avatar-3": "rgb(var(--tomo-avatar-3) / <alpha-value>)",
+        "avatar-3-ink": "rgb(var(--tomo-avatar-3-ink) / <alpha-value>)",
+        "avatar-4": "rgb(var(--tomo-avatar-4) / <alpha-value>)",
+        "avatar-4-ink": "rgb(var(--tomo-avatar-4-ink) / <alpha-value>)",
+        "avatar-5": "rgb(var(--tomo-avatar-5) / <alpha-value>)",
+        "avatar-5-ink": "rgb(var(--tomo-avatar-5-ink) / <alpha-value>)",
+        "avatar-6": "rgb(var(--tomo-avatar-6) / <alpha-value>)",
+        "avatar-6-ink": "rgb(var(--tomo-avatar-6-ink) / <alpha-value>)",
+        "poster-1": "rgb(var(--tomo-poster-1) / <alpha-value>)",
+        "poster-2": "rgb(var(--tomo-poster-2) / <alpha-value>)",
+        "poster-3": "rgb(var(--tomo-poster-3) / <alpha-value>)",
+        "poster-4": "rgb(var(--tomo-poster-4) / <alpha-value>)",
+        "poster-5": "rgb(var(--tomo-poster-5) / <alpha-value>)",
+        "poster-6": "rgb(var(--tomo-poster-6) / <alpha-value>)",
+        "media": "rgb(var(--tomo-media) / <alpha-value>)",
+        "media-depth": "rgb(var(--tomo-media-depth) / <alpha-value>)",
+        "media-video": "rgb(var(--tomo-media-video) / <alpha-value>)",
+        "media-live": "rgb(var(--tomo-media-live) / <alpha-value>)",
+        "on-media": "rgb(var(--tomo-on-media) / <alpha-value>)",
+        "on-media-muted": "rgb(var(--tomo-on-media-muted) / <alpha-value>)",
+        "hang": "rgb(var(--tomo-hang) / <alpha-value>)",
+        "hang-depth": "rgb(var(--tomo-hang-depth) / <alpha-value>)",
+        "discord": "rgb(var(--tomo-discord) / <alpha-value>)",
+        "discord-depth": "rgb(var(--tomo-discord-depth) / <alpha-value>)",
+        "scrim": "rgb(var(--tomo-scrim) / <alpha-value>)"
       },
       "borderRadius": {
         "sm": "8px",
@@ -48,67 +78,64 @@ module.exports = {
         "depth-lg": "6px"
       },
       "fontSize": {
+        "hero": [
+          "64px",
+          {
+            "lineHeight": "64px"
+          }
+        ],
         "display": [
           "40px",
           {
-            "lineHeight": "44px",
-            "fontWeight": "900"
+            "lineHeight": "44px"
           }
         ],
         "title-1": [
           "28px",
           {
-            "lineHeight": "34px",
-            "fontWeight": "900"
+            "lineHeight": "34px"
           }
         ],
         "title-2": [
           "22px",
           {
-            "lineHeight": "28px",
-            "fontWeight": "800"
+            "lineHeight": "28px"
           }
         ],
         "title-3": [
           "18px",
           {
-            "lineHeight": "24px",
-            "fontWeight": "800"
+            "lineHeight": "24px"
           }
         ],
         "body": [
           "16px",
           {
-            "lineHeight": "24px",
-            "fontWeight": "600"
+            "lineHeight": "24px"
           }
         ],
         "body-sm": [
           "14px",
           {
-            "lineHeight": "20px",
-            "fontWeight": "600"
+            "lineHeight": "20px"
           }
         ],
         "button": [
           "16px",
           {
-            "lineHeight": "20px",
-            "fontWeight": "800"
+            "lineHeight": "20px"
           }
         ],
         "label": [
           "13px",
           {
-            "lineHeight": "16px",
-            "fontWeight": "800"
+            "lineHeight": "16px"
           }
         ],
         "caption": [
           "12px",
           {
-            "lineHeight": "16px",
-            "fontWeight": "700"
+            "lineHeight": "16px"
           }
         ]
       },

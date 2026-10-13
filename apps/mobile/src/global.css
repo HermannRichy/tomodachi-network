@@ -32,11 +32,41 @@
     --tomo-success-soft: 220 242 231;
     --tomo-success-ink: 31 107 73;
     --tomo-danger: 200 50 59;
+    --tomo-danger-depth: 138 28 35;
     --tomo-on-danger: 255 255 255;
     --tomo-danger-soft: 253 228 229;
     --tomo-danger-ink: 138 28 35;
     --tomo-slime: 63 182 245;
     --tomo-slime-depth: 30 143 214;
+    --tomo-avatar-1: 255 197 49;
+    --tomo-avatar-1-ink: 90 62 0;
+    --tomo-avatar-2: 255 143 177;
+    --tomo-avatar-2-ink: 94 20 48;
+    --tomo-avatar-3: 159 216 247;
+    --tomo-avatar-3-ink: 11 64 94;
+    --tomo-avatar-4: 185 230 201;
+    --tomo-avatar-4-ink: 26 92 62;
+    --tomo-avatar-5: 201 205 255;
+    --tomo-avatar-5-ink: 38 45 130;
+    --tomo-avatar-6: 255 201 163;
+    --tomo-avatar-6-ink: 106 52 16;
+    --tomo-poster-1: 58 70 200;
+    --tomo-poster-2: 176 58 96;
+    --tomo-poster-3: 23 105 158;
+    --tomo-poster-4: 43 117 86;
+    --tomo-poster-5: 109 69 179;
+    --tomo-poster-6: 164 80 26;
+    --tomo-media: 20 22 31;
+    --tomo-media-depth: 11 12 18;
+    --tomo-media-video: 42 47 74;
+    --tomo-media-live: 59 42 74;
+    --tomo-on-media: 255 255 255;
+    --tomo-on-media-muted: 201 205 227;
+    --tomo-hang: 229 72 77;
+    --tomo-hang-depth: 163 42 46;
+    --tomo-discord: 88 101 242;
+    --tomo-discord-depth: 63 75 201;
+    --tomo-scrim: 18 19 28;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -66,11 +96,41 @@
       --tomo-success-soft: 23 56 40;
       --tomo-success-ink: 168 232 200;
       --tomo-danger: 255 138 143;
+      --tomo-danger-depth: 194 88 94;
       --tomo-on-danger: 43 15 18;
       --tomo-danger-soft: 58 26 29;
       --tomo-danger-ink: 255 194 197;
       --tomo-slime: 63 182 245;
       --tomo-slime-depth: 30 143 214;
+      --tomo-avatar-1: 255 197 49;
+      --tomo-avatar-1-ink: 90 62 0;
+      --tomo-avatar-2: 255 143 177;
+      --tomo-avatar-2-ink: 94 20 48;
+      --tomo-avatar-3: 159 216 247;
+      --tomo-avatar-3-ink: 11 64 94;
+      --tomo-avatar-4: 185 230 201;
+      --tomo-avatar-4-ink: 26 92 62;
+      --tomo-avatar-5: 201 205 255;
+      --tomo-avatar-5-ink: 38 45 130;
+      --tomo-avatar-6: 255 201 163;
+      --tomo-avatar-6-ink: 106 52 16;
+      --tomo-poster-1: 58 70 200;
+      --tomo-poster-2: 176 58 96;
+      --tomo-poster-3: 23 105 158;
+      --tomo-poster-4: 43 117 86;
+      --tomo-poster-5: 109 69 179;
+      --tomo-poster-6: 164 80 26;
+      --tomo-media: 20 22 31;
+      --tomo-media-depth: 11 12 18;
+      --tomo-media-video: 42 47 74;
+      --tomo-media-live: 59 42 74;
+      --tomo-on-media: 255 255 255;
+      --tomo-on-media-muted: 201 205 227;
+      --tomo-hang: 229 72 77;
+      --tomo-hang-depth: 163 42 46;
+      --tomo-discord: 88 101 242;
+      --tomo-discord-depth: 63 75 201;
+      --tomo-scrim: 0 0 0;
     }
   }
 }

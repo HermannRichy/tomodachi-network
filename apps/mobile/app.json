@@ -8,7 +8,6 @@
     "scheme": "tomodachi",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
       "bundleIdentifier": "bj.tomodachi.app"
     },
     "android": {
@@ -32,7 +31,11 @@
         {
           "backgroundColor": "#3A46C8",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "imageWidth": 200,
+          "dark": {
+            "backgroundColor": "#3A46C8",
+            "image": "./assets/images/splash-icon.png"
+          }
         }
       ]
     ],
