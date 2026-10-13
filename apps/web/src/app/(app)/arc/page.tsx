@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { season } from '@tomodachi/fixtures';
 import { Icon, type IconName } from '@/components/icon';
+import { Confetti, haptic } from '@/components/motion';
 import { Badge, Bar, Button, Card, IconButton, SectionTitle, cx } from '@/components/ui';
 
 const icons: Record<string, IconName> = {
@@ -18,6 +19,7 @@ export default function Arc() {
   const [claimed, setClaimed] = useState(false);
   return (
     <>
+      {claimed && <Confetti count={24} />}
       <header className="shrink-0 rounded-b-xl border-b-[6px] border-primary-depth bg-primary text-on-primary lg:mt-4 lg:rounded-xl">
         <div className="flex min-h-11 items-center px-2">
           <IconButton
@@ -54,11 +56,18 @@ export default function Arc() {
                 <b className="flex-1 text-body-sm font-extrabold">{c.label}</b>
                 {complete ? (
                   claimed ? (
-                    <Badge tone="success" icon="check">
+                    <Badge tone="success" icon="check" className="animate-pop">
                       {c.reward}
                     </Badge>
                   ) : (
-                    <Button variant="gold" size="sm" onClick={() => setClaimed(true)}>
+                    <Button
+                      variant="gold"
+                      size="sm"
+                      onClick={() => {
+                        setClaimed(true);
+                        haptic('success');
+                      }}
+                    >
                       Récupérer
                     </Button>
                   )

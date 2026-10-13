@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { fr, liveChat, members } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { Floaters, haptic, useFloaters } from '@/components/motion';
 import { Avatar, Badge, Button, IconButton, cx } from '@/components/ui';
 
 const nameTone = {
@@ -16,6 +17,7 @@ const nameTone = {
 
 export default function Live() {
   const [likes, setLikes] = useState(1204);
+  const hearts = useFloaters();
   const s = members.sora;
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-media-live text-on-media">
@@ -67,14 +69,23 @@ export default function Live() {
           />
         </label>
         <Button variant="gold" size="round-sm" icon="gift" aria-label="Offrir des pièces" />
-        <Button
-          variant="sakura"
-          size="round-sm"
-          icon="heart"
-          iconFill
-          aria-label={`Envoyer un cœur, ${fr(likes)}`}
-          onClick={() => setLikes(likes + 1)}
-        />
+        <span className="relative">
+          <Floaters items={hearts.items} remove={hearts.remove}>
+            <Icon name="heart" fill size={26} className="text-sakura" />
+          </Floaters>
+          <Button
+            variant="sakura"
+            size="round-sm"
+            icon="heart"
+            iconFill
+            aria-label={`Envoyer un cœur, ${fr(likes)}`}
+            onClick={() => {
+              setLikes(likes + 1);
+              hearts.push();
+              haptic();
+            }}
+          />
+        </span>
       </div>
     </div>
   );

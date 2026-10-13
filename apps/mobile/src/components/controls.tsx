@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { Icon, type IconName } from './icon';
+import { Animate, haptic } from './motion';
 import { setTheme, useTheme, useTokens } from './theme';
 import { Chip, T, cx } from './ui';
 
@@ -19,7 +20,10 @@ export function Toggle({
       accessibilityRole="switch"
       accessibilityLabel={label}
       accessibilityState={{ checked: on }}
-      onPress={() => onChange(!on)}
+      onPress={() => {
+        haptic('select');
+        onChange(!on);
+      }}
       hitSlop={6}
       className={cx(
         'h-8 w-[52px] justify-center rounded-pill px-1',
@@ -62,6 +66,7 @@ export function SegTabs({
             accessibilityRole="tab"
             accessibilityState={{ selected: on }}
             onPress={() => {
+              haptic('select');
               setLocal(i);
               onChange?.(i);
             }}
@@ -112,7 +117,10 @@ export function ChipTabs({
         <Chip
           key={t}
           variant={i === current ? 'on' : 'default'}
-          onPress={() => setCurrent(i)}
+          onPress={() => {
+            haptic('select');
+            setCurrent(i);
+          }}
           role="tab"
           selected={i === current}
         >
@@ -210,7 +218,10 @@ export function Checkbox({
     <Pressable
       accessibilityRole="checkbox"
       accessibilityState={{ checked: on }}
-      onPress={() => setOn(!on)}
+      onPress={() => {
+        haptic('select');
+        setOn(!on);
+      }}
       className="flex-row items-start gap-2.5"
     >
       <View
@@ -219,7 +230,11 @@ export function Checkbox({
           on ? 'border-primary bg-primary' : 'border-border-depth',
         )}
       >
-        {on && <Icon name="check" size={16} className="text-on-primary" />}
+        {on && (
+          <Animate name="pop" duration={320}>
+            <Icon name="check" size={16} className="text-on-primary" />
+          </Animate>
+        )}
       </View>
       <View className="flex-1">{children}</View>
     </Pressable>

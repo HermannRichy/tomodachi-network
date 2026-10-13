@@ -39,11 +39,12 @@ export default function Affinites() {
             )}
           />
           <div
+            key={i}
             aria-live="polite"
             className={cardClass(
               'default',
               false,
-              'relative h-full items-center gap-3 px-4 py-5 text-center',
+              'relative h-full animate-card-in items-center gap-3 px-4 py-5 text-center',
             )}
           >
             <Badge tone="official" icon="sparkle" large>

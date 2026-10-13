@@ -29,8 +29,8 @@ export default function Feed() {
           <span className="text-caption opacity-90">{season.feedChallenge.label}</span>
         </Link>
         <ChipTabs tabs={['Pour toi', 'Nakama', 'Guilds', 'Lives']} label="Filtrer le feed" />
-        {posts.map((p) => (
-          <PostCard key={p.id} post={p} />
+        {posts.map((p, i) => (
+          <PostCard key={p.id} post={p} index={i} />
         ))}
       </Screen>
     </>

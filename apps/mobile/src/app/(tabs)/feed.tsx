@@ -36,8 +36,8 @@ export default function Feed() {
         </T>
       </Card>
       <ChipTabs tabs={['Pour toi', 'Nakama', 'Guilds', 'Lives']} label="Filtrer le feed" />
-      {posts.map((p) => (
-        <PostCard key={p.id} post={p} />
+      {posts.map((p, i) => (
+        <PostCard key={p.id} post={p} index={i} />
       ))}
     </Screen>
   );

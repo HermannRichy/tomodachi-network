@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { me, quiz } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { haptic } from '@/components/motion';
 import {
   AppBar,
   AppBarTitle,
@@ -34,7 +35,12 @@ export default function Quiz() {
             <span className="flex flex-col">
               <b className="text-body-sm font-extrabold">Toi</b>
               <b className="text-title-3 text-primary tabular-nums" aria-live="polite">
-                {picked ? (right ? 400 : 300) : 300}
+                <span
+                  key={String(picked)}
+                  className={picked && right ? 'inline-block animate-pop' : 'inline-block'}
+                >
+                  {picked ? (right ? 400 : 300) : 300}
+                </span>
               </b>
             </span>
           </div>
@@ -70,8 +76,16 @@ export default function Quiz() {
                 variant={variant}
                 block
                 aria-pressed={picked === a.key}
-                onClick={() => !picked && setPicked(a.key)}
-                className="justify-start gap-3"
+                onClick={() => {
+                  if (picked) return;
+                  setPicked(a.key);
+                  haptic(a.key === quiz.good ? 'success' : 'error');
+                }}
+                className={cx(
+                  'justify-start gap-3',
+                  picked && a.key === quiz.good && 'animate-pop',
+                  picked === a.key && a.key !== quiz.good && 'animate-shake',
+                )}
               >
                 <span className="flex size-8 items-center justify-center rounded-md bg-surface-sunken font-black text-ink">
                   {a.key}
@@ -82,7 +96,7 @@ export default function Quiz() {
           })}
         </div>
         {picked && (
-          <div className="mt-auto flex flex-col gap-2.5 pt-2">
+          <div className="mt-auto flex animate-enter flex-col gap-2.5 pt-2">
             <div
               role="status"
               className={cx(

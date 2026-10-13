@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { frames, fr, myProfile } from '@tomodachi/fixtures';
 import { SegTabs } from '@/components/client';
 import { Icon } from '@/components/icon';
+import { haptic } from '@/components/motion';
 import { AppBar, AppBarTitle, Badge, Button, Card, IconButton, cx } from '@/components/ui';
 
 const ring = {
@@ -21,7 +22,13 @@ export default function Boutique() {
         <IconButton icon="arrow-left" label="Retour" href="/profil" />
         <AppBarTitle>Boutique</AppBarTitle>
         <Badge icon="coin" large className="mr-2 tabular-nums">
-          <span aria-live="polite">{fr(coins)}</span>
+          <span
+            key={coins}
+            aria-live="polite"
+            className={coins !== myProfile.coins ? 'animate-pop' : undefined}
+          >
+            {fr(coins)}
+          </span>
         </Badge>
       </AppBar>
       <main className="flex flex-1 flex-col gap-3.5 px-4 pt-1 pb-6">
@@ -53,12 +60,15 @@ export default function Boutique() {
                 <b className="text-body-sm font-extrabold">{f.name}</b>
                 <Button
                   variant={own ? 'secondary' : 'gold'}
+                  key={String(own)}
+                  className={own && f.id !== 'lune' ? 'animate-pop' : undefined}
                   size="sm"
                   block
                   disabled={!own && coins < f.price}
                   onClick={() => {
                     if (own || coins < f.price) return;
                     setCoins(coins - f.price);
+                    haptic('success');
                     setOwned({ ...owned, [f.id]: true });
                   }}
                 >

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { season } from '@tomodachi/fixtures';
 import { Icon, type IconName } from '@/components/icon';
+import { Animate, Confetti, haptic } from '@/components/motion';
 import { Screen } from '@/components/layout';
 import { StatusBarOn } from '@/components/status';
 import { Badge, Bar, Button, Card, IconButton, SectionTitle, T } from '@/components/ui';
@@ -18,7 +19,11 @@ const barVariant = { gold: 'watch', primary: 'default', sakura: 'war' } as const
 export default function Arc() {
   const [claimed, setClaimed] = useState(false);
   return (
-    <Screen bg="bg-primary" contentClassName="gap-2.5 bg-background px-0 pt-0">
+    <Screen
+      bg="bg-primary"
+      header={claimed ? <Confetti count={24} delay={0} /> : undefined}
+      contentClassName="gap-2.5 bg-background px-0 pt-0"
+    >
       <StatusBarOn surface="brand" />
       <View className="rounded-b-xl border-b-[6px] border-primary-depth bg-primary">
         <View className="min-h-11 flex-row items-center px-2">
@@ -64,11 +69,20 @@ export default function Arc() {
                 </T>
                 {complete ? (
                   claimed ? (
-                    <Badge tone="success" icon="check">
-                      {c.reward}
-                    </Badge>
+                    <Animate name="pop">
+                      <Badge tone="success" icon="check">
+                        {c.reward}
+                      </Badge>
+                    </Animate>
                   ) : (
-                    <Button variant="gold" size="sm" onPress={() => setClaimed(true)}>
+                    <Button
+                      variant="gold"
+                      size="sm"
+                      onPress={() => {
+                        setClaimed(true);
+                        haptic('success');
+                      }}
+                    >
                       Récupérer
                     </Button>
                   )

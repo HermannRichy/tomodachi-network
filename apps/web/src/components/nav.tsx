@@ -151,7 +151,9 @@ function Tab({
         on ? 'bg-primary-soft text-primary-ink' : 'text-ink-muted',
       )}
     >
-      <Icon name={icon} fill={on} />
+      <span key={String(on)} className={on ? 'flex animate-pop' : 'flex'}>
+        <Icon name={icon} fill={on} />
+      </span>
       {label}
     </Link>
   );

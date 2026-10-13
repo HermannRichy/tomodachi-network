@@ -21,13 +21,13 @@ export function Toggle({
       aria-label={label}
       onClick={() => onChange(!on)}
       className={cx(
-        'relative h-8 w-[52px] shrink-0 cursor-pointer rounded-pill transition-colors',
+        'relative h-8 w-[52px] shrink-0 cursor-pointer rounded-pill transition-colors duration-200',
         on ? 'bg-success' : 'bg-border-depth',
       )}
     >
       <span
         className={cx(
-          'absolute top-1 size-6 rounded-pill bg-surface transition-[left]',
+          'absolute top-1 size-6 rounded-pill bg-surface transition-[left] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
           on ? 'left-6' : 'left-1',
         )}
       />
@@ -215,7 +215,11 @@ export function Checkbox({
           on ? 'border-primary bg-primary' : 'border-border-depth',
         )}
       >
-        {on && <Icon name="check" size={16} />}
+        {on && (
+          <span className="flex animate-pop">
+            <Icon name="check" size={16} />
+          </span>
+        )}
       </span>
       <span>{children}</span>
     </label>

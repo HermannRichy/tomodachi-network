@@ -25,7 +25,15 @@ export default function AppelVocal() {
           <span className="size-11" aria-hidden />
         </header>
         <main className="flex flex-1 flex-col items-center justify-center gap-3.5 text-center">
-          <div className="flex size-[220px] items-center justify-center rounded-pill bg-on-primary/10">
+          <div className="relative flex size-[220px] items-center justify-center rounded-pill bg-on-primary/10">
+            <span
+              aria-hidden
+              className="absolute inset-0 animate-ripple rounded-pill border-2 border-on-primary/40"
+            />
+            <span
+              aria-hidden
+              className="absolute inset-0 animate-ripple rounded-pill border-2 border-on-primary/40 [animation-delay:1200ms]"
+            />
             <div className="flex size-[172px] items-center justify-center rounded-pill bg-on-primary/15">
               <Avatar initial={k.initial} tone={k.tone} size="xxl" />
             </div>

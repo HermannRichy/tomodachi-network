@@ -3,6 +3,7 @@ import { TextInput, View } from 'react-native';
 import { members, watchPartyChat } from '@tomodachi/fixtures';
 import { Bubble } from '@/components/bubble';
 import { Icon } from '@/components/icon';
+import { Floaters, haptic, useFloaters } from '@/components/motion';
 import { BottomBar, Screen } from '@/components/layout';
 import { useTokens } from '@/components/theme';
 import {
@@ -16,6 +17,30 @@ import {
   IconButton,
   T,
 } from '@/components/ui';
+
+function ReactionChip({ label, onReact }: { label: string; onReact: () => void }) {
+  const floaters = useFloaters();
+  return (
+    <View className="flex-1">
+      <Floaters items={floaters.items}>
+        <T variant="label" className="text-sakura">
+          +1
+        </T>
+      </Floaters>
+      <Chip
+        variant="react"
+        onPress={() => {
+          onReact();
+          floaters.push();
+          haptic('tap');
+        }}
+        className="justify-center active:scale-95"
+      >
+        {label}
+      </Chip>
+    </View>
+  );
+}
 
 export default function WatchParty() {
   const [playing, setPlaying] = useState(false);
@@ -84,14 +109,11 @@ export default function WatchParty() {
         <View>
           <View className="flex-row gap-2 px-4 pb-2">
             {reactions.map((r) => (
-              <Chip
+              <ReactionChip
                 key={r.k}
-                variant="react"
-                onPress={() => setCounts((c) => ({ ...c, [r.k]: c[r.k] + 1 }))}
-                className="flex-1 justify-center self-auto"
-              >
-                {`${r.label} ${counts[r.k]}`}
-              </Chip>
+                label={`${r.label} ${counts[r.k]}`}
+                onReact={() => setCounts((c) => ({ ...c, [r.k]: c[r.k] + 1 }))}
+              />
             ))}
           </View>
           <BottomBar>

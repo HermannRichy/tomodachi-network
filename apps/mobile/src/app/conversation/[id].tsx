@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { chat, conversations } from '@tomodachi/fixtures';
 import { Bubble } from '@/components/bubble';
 import { Icon } from '@/components/icon';
@@ -136,9 +137,13 @@ export default function Conversation() {
           ),
         )}
         {sent.map((t, i) => (
-          <Bubble key={`s${i}`} me>
-            {t}
-          </Bubble>
+          <Animated.View
+            key={`s${i}`}
+            entering={ZoomIn.springify().damping(16)}
+            style={{ alignSelf: 'flex-end' }}
+          >
+            <Bubble me>{t}</Bubble>
+          </Animated.View>
         ))}
         <T variant="caption" className="self-end text-ink-muted">
           {chat.seen}

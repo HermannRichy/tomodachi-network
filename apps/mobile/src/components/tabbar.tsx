@@ -4,6 +4,7 @@ import type { ComponentProps } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon, type IconName } from './icon';
+import { Animate, haptic } from './motion';
 import { T, cx } from './ui';
 
 type BottomTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
@@ -33,14 +34,23 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
             target: route.key,
             canPreventDefault: true,
           });
-          if (!on && !event.defaultPrevented) navigation.navigate(route.name);
+          if (!on && !event.defaultPrevented) {
+            haptic('select');
+            navigation.navigate(route.name);
+          }
         }}
         className={cx(
           'min-h-[52px] min-w-[62px] items-center justify-center gap-0.5 rounded-md',
           on && 'bg-primary-soft',
         )}
       >
-        <Icon name={tab.icon} fill={on} className={on ? 'text-primary-ink' : 'text-ink-muted'} />
+        {on ? (
+          <Animate name="pop" duration={360} trigger={state.index}>
+            <Icon name={tab.icon} fill className="text-primary-ink" />
+          </Animate>
+        ) : (
+          <Icon name={tab.icon} className="text-ink-muted" />
+        )}
         <T variant="caption" weight={800} className={on ? 'text-primary-ink' : 'text-ink-muted'}>
           {tab.label}
         </T>

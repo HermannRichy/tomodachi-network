@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { fr, liveChat, members } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { Floaters, useFloaters } from '@/components/motion';
 import { Screen } from '@/components/layout';
 import { StatusBarOn } from '@/components/status';
 import { useTokens } from '@/components/theme';
@@ -18,6 +19,7 @@ const nameTone = {
 
 export default function Live() {
   const [likes, setLikes] = useState(1204);
+  const hearts = useFloaters();
   const tokens = useTokens();
   const s = members.sora;
   return (
@@ -85,14 +87,22 @@ export default function Live() {
           />
         </View>
         <Button variant="gold" size="round-sm" icon="gift" label="Offrir des pièces" />
-        <Button
-          variant="sakura"
-          size="round-sm"
-          icon="heart"
-          iconFill
-          label={`Envoyer un cœur, ${fr(likes)}`}
-          onPress={() => setLikes(likes + 1)}
-        />
+        <View>
+          <Floaters items={hearts.items}>
+            <Icon name="heart" fill size={26} className="text-sakura" />
+          </Floaters>
+          <Button
+            variant="sakura"
+            size="round-sm"
+            icon="heart"
+            iconFill
+            label={`Envoyer un cœur, ${fr(likes)}`}
+            onPress={() => {
+              setLikes(likes + 1);
+              hearts.push();
+            }}
+          />
+        </View>
       </View>
     </Screen>
   );

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { me, quiz } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { Animate, haptic } from '@/components/motion';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Bottom, Screen } from '@/components/layout';
 import { AppBar, AppBarTitle, Avatar, Bar, Button, Card, IconButton, T, cx } from '@/components/ui';
 
@@ -82,12 +84,16 @@ export default function Quiz() {
               : variant === 'danger'
                 ? 'text-on-danger'
                 : 'text-primary';
-          return (
+          const effect = picked && a.key === quiz.good ? 'pop' : picked === a.key ? 'shake' : null;
+          const button = (
             <Button
-              key={a.key}
               variant={variant}
               block
-              onPress={() => !picked && setPicked(a.key)}
+              onPress={() => {
+                if (picked) return;
+                setPicked(a.key);
+                haptic(a.key === quiz.good ? 'success' : 'error');
+              }}
               accessibilityState={{ selected: picked === a.key }}
               className="justify-start gap-3"
             >
@@ -99,35 +105,44 @@ export default function Quiz() {
               </T>
             </Button>
           );
+          return effect ? (
+            <Animate key={a.key} name={effect} trigger={picked ?? ''}>
+              {button}
+            </Animate>
+          ) : (
+            <View key={a.key}>{button}</View>
+          );
         })}
       </View>
       {picked && (
-        <Bottom className="pt-2">
-          <View
-            accessibilityLiveRegion="polite"
-            className={cx(
-              'flex-row items-center gap-2 rounded-md p-3',
-              right ? 'bg-success-soft' : 'bg-danger-soft',
-            )}
-          >
-            <Icon
-              name={right ? 'check-circle' : 'warning'}
-              className={right ? 'text-success-ink' : 'text-danger-ink'}
-            />
-            <T
-              variant="body-sm"
-              weight={800}
-              className={cx('flex-1', right ? 'text-success-ink' : 'text-danger-ink')}
+        <Animated.View entering={FadeInDown.duration(320)} style={{ marginTop: 'auto' }}>
+          <Bottom className="pt-2">
+            <View
+              accessibilityLiveRegion="polite"
+              className={cx(
+                'flex-row items-center gap-2 rounded-md p-3',
+                right ? 'bg-success-soft' : 'bg-danger-soft',
+              )}
             >
-              {right
-                ? 'Bien joué ! +100 points pour ta guild'
-                : 'Raté, la bonne réponse était Mecha'}
-            </T>
-          </View>
-          <Button href="/quiz-resultat" block>
-            Question suivante
-          </Button>
-        </Bottom>
+              <Icon
+                name={right ? 'check-circle' : 'warning'}
+                className={right ? 'text-success-ink' : 'text-danger-ink'}
+              />
+              <T
+                variant="body-sm"
+                weight={800}
+                className={cx('flex-1', right ? 'text-success-ink' : 'text-danger-ink')}
+              >
+                {right
+                  ? 'Bien joué ! +100 points pour ta guild'
+                  : 'Raté, la bonne réponse était Mecha'}
+              </T>
+            </View>
+            <Button href="/quiz-resultat" block>
+              Question suivante
+            </Button>
+          </Bottom>
+        </Animated.View>
       )}
     </Screen>
   );

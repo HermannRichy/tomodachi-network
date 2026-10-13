@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { members, watchPartyChat } from '@tomodachi/fixtures';
 import { Bubble } from '@/components/bubble';
 import { Icon } from '@/components/icon';
+import { Floaters, haptic, useFloaters } from '@/components/motion';
 import {
   Avatar,
   AvatarStack,
@@ -13,6 +14,37 @@ import {
   chipClass,
   cx,
 } from '@/components/ui';
+
+function ReactionChip({
+  label,
+  count,
+  onReact,
+}: {
+  label: string;
+  count: number;
+  onReact: () => void;
+}) {
+  const floaters = useFloaters();
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        onReact();
+        floaters.push();
+        haptic();
+      }}
+      className={chipClass('react', false, 'relative flex-1 justify-center active:scale-95')}
+    >
+      <Floaters items={floaters.items} remove={floaters.remove}>
+        <span className="text-label text-sakura">+1</span>
+      </Floaters>
+      {label}{' '}
+      <span key={count} className="inline-block animate-pop tabular-nums">
+        {count}
+      </span>
+    </button>
+  );
+}
 
 export default function WatchParty() {
   const [playing, setPlaying] = useState(false);
@@ -90,14 +122,12 @@ export default function WatchParty() {
       <div className="sticky bottom-0 bg-background">
         <div className="flex gap-2 px-4 pb-2">
           {reactions.map((r) => (
-            <button
+            <ReactionChip
               key={r.k}
-              type="button"
-              onClick={() => setCounts((c) => ({ ...c, [r.k]: c[r.k] + 1 }))}
-              className={chipClass('react', false, 'flex-1 justify-center')}
-            >
-              {r.label} {counts[r.k]}
-            </button>
+              label={r.label}
+              count={counts[r.k]}
+              onReact={() => setCounts((c) => ({ ...c, [r.k]: c[r.k] + 1 }))}
+            />
           ))}
         </div>
         <div className="flex items-center gap-2 border-t-2 border-border bg-surface px-3 pt-2.5 pb-[max(env(safe-area-inset-bottom),12px)]">

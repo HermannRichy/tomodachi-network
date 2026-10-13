@@ -1,11 +1,11 @@
 // Composants du design system Tomodachi pour le web (voir docs/design-system).
 // Toutes les couleurs, tailles de texte et rayons viennent des tokens : aucune valeur en dur.
-import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
 import type { Tone } from '@tomodachi/fixtures';
 import { extendTailwindMerge } from 'tailwind-merge';
 import { Icon, type IconName } from './icon';
+import { KamiSvg } from './kami';
 
 // Fusionne les classes : la dernière l'emporte (className passé à un composant > style par défaut).
 const merge = extendTailwindMerge({
@@ -155,7 +155,10 @@ export function IconButton({
     <>
       <Icon name={icon} size={size} fill={fill} />
       {dot && (
-        <span className="absolute top-[9px] right-[9px] size-2.5 rounded-pill border-2 border-background bg-sakura" />
+        <span className="absolute top-[9px] right-[9px] size-2.5">
+          <span className="absolute inset-0 animate-ping-soft rounded-pill bg-sakura" />
+          <span className="absolute inset-0 rounded-pill border-2 border-background bg-sakura" />
+        </span>
       )}
     </>
   );
@@ -680,7 +683,10 @@ export function Bar({
       )}
     >
       <span
-        className={cx('block h-full rounded-pill transition-[width]', fill)}
+        className={cx(
+          'block h-full animate-bar rounded-pill transition-[width] duration-500',
+          fill,
+        )}
         style={{ width: `${value}%` }}
       />
     </span>
@@ -844,22 +850,16 @@ export function Note({
 export function Kami({
   size = 150,
   alt = '',
+  animated = true,
   className,
 }: {
   size?: number;
   alt?: string;
+  /** false pour une pose fixe (petites tailles dans les listes, par exemple). */
+  animated?: boolean;
   className?: string;
 }) {
-  return (
-    <Image
-      src="/kami-sama.svg"
-      width={size}
-      height={Math.round((size * 188) / 200)}
-      alt={alt}
-      className={cx('shrink-0', className)}
-      priority={size >= 140}
-    />
-  );
+  return <KamiSvg size={size} alt={alt} animated={animated} className={className} />;
 }
 
 export function Speech({ children, className }: { children: ReactNode; className?: string }) {
@@ -905,5 +905,36 @@ export function TextLink({
     >
       {children}
     </Link>
+  );
+}
+
+/** Bloc de chargement qui pulse doucement, à la forme du contenu attendu. */
+export function Skeleton({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cx('block animate-shimmer rounded-md bg-surface-sunken', className)}
+    />
+  );
+}
+
+/** Carte de publication en cours de chargement. */
+export function PostSkeleton() {
+  return (
+    <div className={cardClass('default', false)}>
+      <div className="flex items-center gap-2.5">
+        <Skeleton className="size-10 rounded-pill" />
+        <div className="flex flex-1 flex-col gap-1.5">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-3 w-48" />
+        </div>
+      </div>
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+      <div className="flex gap-2">
+        <Skeleton className="h-10 w-28 rounded-pill" />
+        <Skeleton className="h-10 w-16 rounded-pill" />
+      </div>
+    </div>
   );
 }

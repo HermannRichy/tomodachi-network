@@ -1,6 +1,8 @@
 import { View } from 'react-native';
 import { me, quiz } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { Animate } from '@/components/motion';
+import { RewardEffects } from '@/components/reward';
 import { Screen } from '@/components/layout';
 import { AppBar, Avatar, Button, Card, Grid, IconButton, List, ListItem, T } from '@/components/ui';
 
@@ -22,9 +24,12 @@ export default function QuizResultat() {
       contentClassName="gap-[18px] px-5 pt-0"
     >
       <View className="items-center gap-2.5">
-        <View className="h-24 w-24 items-center justify-center rounded-xl border-b-[6px] border-gold-depth bg-gold">
-          <Icon name="trophy" size={40} className="text-on-gold" />
-        </View>
+        <RewardEffects count={28} />
+        <Animate name="pop" duration={520}>
+          <View className="h-24 w-24 items-center justify-center rounded-xl border-b-[6px] border-gold-depth bg-gold">
+            <Icon name="trophy" size={40} className="text-on-gold" />
+          </View>
+        </Animate>
         <T variant="title-1" accessibilityRole="header">
           Victoire !
         </T>

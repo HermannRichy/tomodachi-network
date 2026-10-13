@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { frames, fr, myProfile } from '@tomodachi/fixtures';
 import { SegTabs } from '@/components/controls';
 import { Icon } from '@/components/icon';
+import { haptic } from '@/components/motion';
 import { Screen } from '@/components/layout';
 import { AppBar, AppBarTitle, Badge, Button, Card, Grid, IconButton, T, cx } from '@/components/ui';
 
@@ -71,6 +72,7 @@ export default function Boutique() {
                 onPress={() => {
                   if (own || coins < f.price) return;
                   setCoins(coins - f.price);
+                  haptic('success');
                   setOwned({ ...owned, [f.id]: true });
                 }}
               >

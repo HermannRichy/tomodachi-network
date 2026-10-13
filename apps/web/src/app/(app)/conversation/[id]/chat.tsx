@@ -59,7 +59,7 @@ export function Chat() {
           ),
         )}
         {sent.map((t, i) => (
-          <Bubble key={`s${i}`} me>
+          <Bubble key={`s${i}`} me className="origin-bottom-right animate-pop">
             {t}
           </Bubble>
         ))}

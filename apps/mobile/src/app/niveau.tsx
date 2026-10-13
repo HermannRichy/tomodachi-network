@@ -1,6 +1,9 @@
 import { View } from 'react-native';
 import { fr, levelUp as l } from '@tomodachi/fixtures';
 import { Icon } from '@/components/icon';
+import { Animate } from '@/components/motion';
+import { RewardEffects } from '@/components/reward';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Screen } from '@/components/layout';
 import { StatusBarOn } from '@/components/status';
 import { Bar, Button, Card, Grid, IconButton, Kami, SectionTitle, T, Tile } from '@/components/ui';
@@ -10,9 +13,12 @@ export default function Niveau() {
     <Screen
       bg="bg-primary"
       header={
-        <View className="min-h-[52px] flex-row items-center justify-end px-2">
-          <IconButton icon="x" label="Fermer" href="/feed" iconClassName="text-on-primary" />
-        </View>
+        <>
+          <RewardEffects />
+          <View className="min-h-[52px] flex-row items-center justify-end px-2">
+            <IconButton icon="x" label="Fermer" href="/feed" iconClassName="text-on-primary" />
+          </View>
+        </>
       }
       contentClassName="gap-5 px-6 pb-10 pt-0"
     >
@@ -26,13 +32,17 @@ export default function Niveau() {
           <Icon name="star" fill size={32} className="text-gold" />
           <Icon name="sparkle" size={20} className="text-gold" />
         </View>
-        <Kami size={170} label="Kami-sama te félicite" />
+        <Animate name="pop" duration={520}>
+          <Kami size={170} label="Kami-sama te félicite" />
+        </Animate>
         <T variant="label" className="tracking-[1px] text-on-primary opacity-85">
           NIVEAU SUPÉRIEUR
         </T>
-        <T variant="hero" accessibilityRole="header" className="text-on-primary">
-          {l.level}
-        </T>
+        <Animate name="pop" delay={250} duration={520}>
+          <T variant="hero" accessibilityRole="header" className="text-on-primary">
+            {l.level}
+          </T>
+        </Animate>
         <T variant="title-3" className="text-on-primary">
           {l.rank}
         </T>
@@ -55,13 +65,15 @@ export default function Niveau() {
       </View>
       <Card>
         <SectionTitle>Récompenses</SectionTitle>
-        {l.rewards.map((r) => (
-          <View key={r.label} className="flex-row items-center gap-2.5">
-            <Tile icon={r.icon} tone={r.tone} size={40} />
-            <T variant="body-sm" weight={800} className="flex-1">
-              {r.label}
-            </T>
-          </View>
+        {l.rewards.map((r, i) => (
+          <Animated.View key={r.label} entering={FadeInDown.delay(700 + i * 120).duration(320)}>
+            <View className="flex-row items-center gap-2.5">
+              <Tile icon={r.icon} tone={r.tone} size={40} />
+              <T variant="body-sm" weight={800} className="flex-1">
+                {r.label}
+              </T>
+            </View>
+          </Animated.View>
         ))}
       </Card>
       <Grid cols={2} gap="gap-2.5">

@@ -4,19 +4,38 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { className as playerClassName, fr, type Post } from '@tomodachi/fixtures';
 import { Icon } from './icon';
+import { Burst, haptic } from './motion';
 import { Avatar, Badge, Button, Chip, IconButton, chipClass, cx } from './ui';
 
 export function SugoiButton({ count, initial = false }: { count: number; initial?: boolean }) {
   const [on, setOn] = useState(initial);
+  const [bursts, setBursts] = useState(0);
+  const [touched, setTouched] = useState(false);
+  const n = count + (on && !initial ? 1 : 0) - (!on && initial ? 1 : 0);
   return (
     <button
       type="button"
       aria-pressed={on}
-      onClick={() => setOn(!on)}
-      className={chipClass(on ? 'react-on' : 'react')}
+      onClick={() => {
+        if (!on) {
+          setBursts((b) => b + 1);
+          haptic();
+        }
+        setOn(!on);
+        setTouched(true);
+      }}
+      className={chipClass(on ? 'react-on' : 'react', false, 'relative active:scale-95')}
     >
-      <Icon name="fire" size={18} fill={on} />
-      Sugoi {fr(count + (on && !initial ? 1 : 0) - (!on && initial ? 1 : 0))}
+      <span className="relative flex">
+        <span key={`i${bursts}${on}`} className={on && bursts > 0 ? 'flex animate-pop' : 'flex'}>
+          <Icon name="fire" size={18} fill={on} />
+        </span>
+        {on && bursts > 0 && <Burst key={bursts} />}
+      </span>
+      Sugoi{' '}
+      <span key={n} className={cx('inline-block tabular-nums', touched && 'animate-pop')}>
+        {fr(n)}
+      </span>
     </button>
   );
 }
@@ -25,7 +44,9 @@ export function SpoilerBlock({ spoiler }: { spoiler: NonNullable<Post['spoiler']
   const [shown, setShown] = useState(false);
   if (shown) {
     return (
-      <p className="rounded-md bg-sakura-soft p-3 text-body-sm text-sakura-ink">{spoiler.hidden}</p>
+      <p className="animate-reveal rounded-md bg-sakura-soft p-3 text-body-sm text-sakura-ink">
+        {spoiler.hidden}
+      </p>
     );
   }
   return (
@@ -43,12 +64,23 @@ export function SpoilerBlock({ spoiler }: { spoiler: NonNullable<Post['spoiler']
   );
 }
 
-export function PostCard({ post, interactive = true }: { post: Post; interactive?: boolean }) {
+export function PostCard({
+  post,
+  interactive = true,
+  index = 0,
+}: {
+  post: Post;
+  interactive?: boolean;
+  /** Position dans la liste : les cartes apparaissent l'une après l'autre. */
+  index?: number;
+}) {
   const a = post.author;
   return (
     <article
+      style={{ animationDelay: `${80 + index * 70}ms` }}
       className={cx(
         'flex flex-col gap-2.5 rounded-lg border-2 border-b-4 border-border border-b-border-depth bg-surface p-3.5',
+        interactive && 'animate-enter',
       )}
     >
       <div className="flex items-center gap-2.5">

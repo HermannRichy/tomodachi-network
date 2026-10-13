@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { members } from '@tomodachi/fixtures';
 import { useStopwatch } from '@/components/controls';
 import { Icon } from '@/components/icon';
+import { Animate } from '@/components/motion';
 import { Screen } from '@/components/layout';
 import { StatusBarOn } from '@/components/status';
 import { AppBar, Avatar, Badge, Button, IconButton, T } from '@/components/ui';
@@ -37,6 +38,18 @@ export default function AppelVocal() {
       <StatusBarOn surface="brand" />
       <View className="flex-1 items-center justify-center gap-3.5">
         <View className="h-[220px] w-[220px] items-center justify-center rounded-pill bg-on-primary/10">
+          {[0, 1200].map((d) => (
+            <Animate
+              key={d}
+              name="ripple"
+              duration={2400}
+              delay={d}
+              loop
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            >
+              <View className="h-full w-full rounded-pill border-2 border-on-primary/40" />
+            </Animate>
+          ))}
           <View className="h-[172px] w-[172px] items-center justify-center rounded-pill bg-on-primary/15">
             <Avatar initial={k.initial} tone={k.tone} size="xxl" />
           </View>

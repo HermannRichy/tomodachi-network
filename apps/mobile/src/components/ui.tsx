@@ -1,9 +1,9 @@
 // Composants du design system Tomodachi pour le mobile (NativeWind).
 // Toutes les couleurs, tailles de texte et rayons viennent des tokens : aucune valeur en dur.
 // En React Native, le texte n'hérite pas de la couleur du parent : chaque <T> porte la sienne.
-import { Image } from 'expo-image';
 import { Link, type Href } from 'expo-router';
-import { Children, Fragment, isValidElement, useState, type ReactNode } from 'react';
+import { Children, Fragment, isValidElement, useEffect, useState, type ReactNode } from 'react';
+import Animated, { cubicBezier, useReducedMotion } from 'react-native-reanimated';
 import {
   Pressable,
   Text,
@@ -16,6 +16,8 @@ import {
 import { extendTailwindMerge } from 'tailwind-merge';
 import type { Tone } from '@tomodachi/fixtures';
 import { Icon, type IconName } from './icon';
+import { KamiArt } from './kami';
+import { Animate, haptic } from './motion';
 import { useTokens } from './theme';
 
 const textSizes = [
@@ -172,6 +174,10 @@ export function Button({
       accessibilityState={{ disabled: !!disabled }}
       disabled={disabled}
       {...props}
+      onPressIn={(e) => {
+        if (variant !== 'ghost') haptic('tap');
+        props.onPressIn?.(e);
+      }}
       className={cx(
         'flex-row items-center justify-center gap-2 active:translate-y-1 active:border-b-0',
         box,
@@ -239,7 +245,17 @@ export function IconButton({
     >
       <Icon name={icon} size={size} fill={fill} className={iconClassName} />
       {dot && (
-        <View className="absolute right-[9px] top-[9px] h-2.5 w-2.5 rounded-pill border-2 border-background bg-sakura" />
+        <View className="absolute right-[9px] top-[9px] h-2.5 w-2.5">
+          <Animate
+            name="ping"
+            duration={1800}
+            loop
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+          >
+            <View className="h-full w-full rounded-pill bg-sakura" />
+          </Animate>
+          <View className="h-full w-full rounded-pill border-2 border-background bg-sakura" />
+        </View>
       )}
     </Pressable>
   );
@@ -868,11 +884,33 @@ export function Bar({
         className,
       )}
     >
-      <View
-        className={cx('h-full rounded-pill', fill)}
-        style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
-      />
+      <BarFill value={Math.max(0, Math.min(100, value))} className={fill} />
     </View>
+  );
+}
+
+/** Remplissage qui part de zéro à l'affichage puis suit la valeur. */
+function BarFill({ value, className }: { value: number; className: string }) {
+  const reduced = useReducedMotion();
+  const [width, setWidth] = useState(reduced ? value : 0);
+  useEffect(() => {
+    const t = setTimeout(() => setWidth(value), 60);
+    return () => clearTimeout(t);
+  }, [value]);
+  return (
+    <Animated.View
+      style={{
+        height: '100%',
+        width: `${width}%`,
+        borderRadius: 999,
+        overflow: 'hidden',
+        transitionProperty: 'width',
+        transitionDuration: reduced ? 0 : 800,
+        transitionTimingFunction: cubicBezier(0.22, 1, 0.36, 1),
+      }}
+    >
+      <View className={cx('h-full w-full', className)} />
+    </Animated.View>
   );
 }
 
@@ -1057,26 +1095,27 @@ export function Note({
 
 // Kami-sama
 
-const kami = require('../../assets/images/kami-sama.svg');
-
 export function Kami({
   size = 150,
   label,
+  animated = true,
   className,
 }: {
   size?: number;
   label?: string;
+  /** false pour une pose fixe. */
+  animated?: boolean;
   className?: string;
 }) {
   return (
-    <Image
-      source={kami}
-      style={{ width: size, height: Math.round((size * 188) / 200) }}
+    <View
       accessible={!!label}
+      accessibilityRole={label ? 'image' : undefined}
       accessibilityLabel={label}
       className={className}
-      contentFit="contain"
-    />
+    >
+      <KamiArt size={size} animated={animated} />
+    </View>
   );
 }
 

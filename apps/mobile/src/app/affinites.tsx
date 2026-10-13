@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { affinityPeople } from '@tomodachi/fixtures';
+import Animated, { FadeInRight } from 'react-native-reanimated';
 import { Screen } from '@/components/layout';
 import {
   AppBar,
@@ -43,45 +44,47 @@ export default function Affinites() {
           )}
           importantForAccessibility="no-hide-descendants"
         />
-        <View
-          className={cardClass('default', false, 'flex-1 items-center gap-3 px-4 py-5')}
-          accessibilityLiveRegion="polite"
-        >
-          <Badge tone="official" icon="sparkle" large>
-            {`${p.match} d'affinité`}
-          </Badge>
-          <Avatar initial={p.member.initial} tone={p.member.tone} size="xl" />
-          <View className="items-center gap-1">
-            <T variant="title-2" accessibilityRole="header">
-              {p.member.name}
+        <Animated.View key={i} entering={FadeInRight.springify().damping(14)} style={{ flex: 1 }}>
+          <View
+            className={cardClass('default', false, 'flex-1 items-center gap-3 px-4 py-5')}
+            accessibilityLiveRegion="polite"
+          >
+            <Badge tone="official" icon="sparkle" large>
+              {`${p.match} d'affinité`}
+            </Badge>
+            <Avatar initial={p.member.initial} tone={p.member.tone} size="xl" />
+            <View className="items-center gap-1">
+              <T variant="title-2" accessibilityRole="header">
+                {p.member.name}
+              </T>
+              <T variant="body-sm" className="text-ink-muted">
+                {p.meta}
+              </T>
+            </View>
+            <T variant="body-sm" className="text-center">
+              {p.bio}
             </T>
-            <T variant="body-sm" className="text-ink-muted">
-              {p.meta}
-            </T>
+            <View className="w-full gap-2">
+              <SectionTitle className="text-center">En commun</SectionTitle>
+              <Grid cols={3}>
+                {p.animes.map((a) => (
+                  <Poster key={a.id} tone={a.tone} title={a.title} square />
+                ))}
+              </Grid>
+            </View>
+            <View className="mt-auto flex-row items-center justify-center gap-6 pt-2">
+              <Button variant="secondary" size="round" icon="x" label="Passer" onPress={next} />
+              <Button size="round-lg" icon="hand-waving" label="Dire bonjour" onPress={next} />
+              <Button
+                variant="secondary"
+                size="round"
+                icon="chat-circle-dots"
+                label="Envoyer un message"
+                href="/conversation/aiko"
+              />
+            </View>
           </View>
-          <T variant="body-sm" className="text-center">
-            {p.bio}
-          </T>
-          <View className="w-full gap-2">
-            <SectionTitle className="text-center">En commun</SectionTitle>
-            <Grid cols={3}>
-              {p.animes.map((a) => (
-                <Poster key={a.id} tone={a.tone} title={a.title} square />
-              ))}
-            </Grid>
-          </View>
-          <View className="mt-auto flex-row items-center justify-center gap-6 pt-2">
-            <Button variant="secondary" size="round" icon="x" label="Passer" onPress={next} />
-            <Button size="round-lg" icon="hand-waving" label="Dire bonjour" onPress={next} />
-            <Button
-              variant="secondary"
-              size="round"
-              icon="chat-circle-dots"
-              label="Envoyer un message"
-              href="/conversation/aiko"
-            />
-          </View>
-        </View>
+        </Animated.View>
       </View>
     </Screen>
   );
