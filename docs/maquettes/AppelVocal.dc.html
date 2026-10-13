@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Appel vocal</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen" style="background: var(--primary); color: var(--on-primary)">
+<div class="island"></div>
+<div class="status inv" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Conversation.dc.html" aria-label="Réduire l'appel"><i class="ic i-caret-left" aria-hidden="true"></i></a><span class="title" style="text-align: center; font-size: 16px"><i class="ic s16 i-lock-simple" aria-hidden="true" style="vertical-align: -2px"></i> Appel chiffré</span><span class="ib" aria-hidden="true"></span></div>
+<div class="center" style="flex: 1; gap: 14px">
+<div class="center" style="width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,.08)">
+<div class="center" style="width: 172px; height: 172px; border-radius: 50%; background: rgba(255,255,255,.12)">
+<span class="av xl a2" aria-hidden="true" style="width: 120px; height: 120px; font-size: 46px">K</span>
+</div>
+</div>
+<h1 class="t1">Kenji</h1>
+<p class="t3 tnum" style="opacity: 0.85">04:12</p>
+<span class="badge" style="background: rgba(255,255,255,.16); color: var(--on-primary)"><i class="ic i-shield" aria-hidden="true"></i>Sakura Ronin</span>
+</div>
+<div class="row" style="justify-content: center; gap: 18px; padding: 0 24px 56px">
+<button class="{{ muteCls }}" aria-pressed="{{ muted }}" onClick="{{ toggleMute }}" aria-label="Couper le micro"><i class="{{ muteIcon }}" aria-hidden="true"></i></button>
+<button class="btn round glass" aria-label="Haut-parleur"><i class="ic i-speaker-high" aria-hidden="true"></i></button>
+<a class="btn round glass" href="AppelVideo.dc.html" aria-label="Passer en vidéo"><i class="ic i-video-camera" aria-hidden="true"></i></a>
+<a class="btn round hang" href="Messages.dc.html" aria-label="Raccrocher"><i class="ic i-phone-x" aria-hidden="true"></i></a>
+</div>
+<div class="home" style="background: var(--on-primary)"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), muted: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; const m = this.state.muted; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), muted: m, muteCls: m ? 'btn round g' : 'btn round glass', muteIcon: m ? 'ic i-microphone-slash' : 'ic i-microphone', toggleMute: () => this.setState({ muted: !this.state.muted }) }; }
+}
+</script>
+</body>
+</html>

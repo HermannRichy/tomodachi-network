@@ -1,0 +1,52 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;900&display=swap">
+<style>
+body{margin:0;background:var(--bg)}
+.cover{position:relative;width:960px;height:288px;overflow:hidden;background:var(--bg);font-family:var(--font-sans)}
+.text{position:absolute;left:40px;bottom:40px;max-width:440px;display:flex;flex-direction:column;gap:8px}
+.name{margin:0;font-size:80px;line-height:.92;font-weight:900;color:var(--ink)}
+.tag{margin:0;font-size:14px;font-weight:600;color:var(--ink-muted)}
+svg{position:absolute;left:480px;top:0}
+.primary{fill:var(--primary)}
+.primary-depth{fill:var(--primary-depth)}
+.sakura{fill:var(--sakura)}
+.sakura-depth{fill:var(--sakura-depth)}
+.gold{fill:var(--gold)}
+.gold-depth{fill:var(--gold-depth)}
+.slime{fill:var(--slime)}
+.slime-depth{fill:var(--slime-depth)}
+.ground{fill:var(--bg)}
+.r-xl{rx:var(--radius-xl)}
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="text">
+<h1 class="name">Tomodachi</h1>
+<p class="tag">Le design system du réseau social des otakus.</p>
+</div>
+<svg width="480" height="288" viewBox="0 0 480 288" aria-hidden="true">
+<!--
+blocks: primary 208×200 (slab, bleeds top) · sakura 176×72 pill · gold disc r60 · slime 176×112 (bleeds bottom); each sits on its -depth band (depth-lg under the slab, depth-md under pill and disc)
+arrangement: staggered stack, one tall slab with satellites, right of x=480
+pattern: discs (soft, friendly, large radii; the README says "rayons généreux") — 10 discs r6 at space-5 pitch cut from the slab in bg; the -depth band under every block is the relief motif itself
+steps and radii: space-5 (24) pitch, space-4 (16) insets, radius-xl on slab and slime block, pills rx = half the short side
+-->
+<rect class="primary-depth r-xl" x="24" y="-28" width="208" height="210"></rect>
+<rect class="primary r-xl" x="24" y="-28" width="208" height="204"></rect>
+<circle class="ground" cx="64" cy="112" r="6"></circle><circle class="ground" cx="88" cy="112" r="6"></circle><circle class="ground" cx="112" cy="112" r="6"></circle><circle class="ground" cx="136" cy="112" r="6"></circle><circle class="ground" cx="160" cy="112" r="6"></circle>
+<circle class="ground" cx="64" cy="136" r="6"></circle><circle class="ground" cx="88" cy="136" r="6"></circle><circle class="ground" cx="112" cy="136" r="6"></circle><circle class="ground" cx="136" cy="136" r="6"></circle><circle class="ground" cx="160" cy="136" r="6"></circle>
+<rect class="sakura-depth" x="264" y="36" width="176" height="76" rx="36"></rect>
+<rect class="sakura" x="264" y="32" width="176" height="72" rx="36"></rect>
+<circle class="gold-depth" cx="368" cy="198" r="60"></circle>
+<circle class="gold" cx="368" cy="192" r="60"></circle>
+<rect class="slime-depth r-xl" x="88" y="204" width="176" height="112"></rect>
+<rect class="slime r-xl" x="88" y="200" width="176" height="112"></rect>
+</svg>
+</div>
+</body>
+</html>

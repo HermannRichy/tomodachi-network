@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Animes favoris</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Classe.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><div class="steps grow" aria-label="Étape 2 sur 3"><i class="on"></i><i class="on"></i><i></i></div><span class="lbl muted" style="padding: 0 12px">2/3</span></div>
+<div class="main" style="gap: 12px; padding: 4px 20px 40px">
+<div class="stack g4">
+<h1 class="t1">Tes animes favoris</h1>
+<p class="body muted">Choisis-en au moins 3 pour personnaliser ton feed.</p>
+</div>
+<label class="input sunk"><i class="ic s20 i-magnifying-glass" aria-hidden="true"></i><input type="search" placeholder="Chercher un anime" aria-label="Chercher un anime"></label>
+<div class="row g8" style="overflow: hidden"><span class="chip on">Shōnen</span><span class="chip">Isekai</span><span class="chip">Slice of life</span><span class="chip">Mecha</span></div>
+<div class="grid3">
+<sc-for list="{{ animes }}" as="a" hint-placeholder-count="9">
+<button class="poster {{ a.color }}" aria-pressed="{{ a.on }}" onClick="{{ a.toggle }}" style="border: none; cursor: pointer; font-family: inherit; text-align: left; outline-offset: 2px">
+<sc-if value="{{ a.on }}" hint-placeholder-val="{{ false }}"><span class="ck"><i class="ic i-check" aria-hidden="true"></i></span></sc-if>
+<span>{{ a.title }}</span>
+</button>
+</sc-for>
+</div>
+<div class="stack g8 push">
+<p class="lbl muted" style="text-align: center">{{ count }} sélectionnés</p>
+<a class="btn p block" href="PremiersNakama.dc.html">Continuer</a>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), on: { a1: true, a2: true, a4: true, a7: true } }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme;
+    const list = [['a1', 'Lames du crépuscule', 'p1'], ['a2', 'Académie Hoshizora', 'p2'], ['a3', 'Le Dernier Ronin', 'p6'], ['a4', 'Mecha Aurora', 'p3'], ['a5', "Cuisine d'Edo", 'p4'], ['a6', 'Esprits de Kyoto', 'p5'], ['a7', 'Volley Kaze', 'p6'], ['a8', 'Isekai Boulanger', 'p2'], ['a9', 'Chroniques du Shogun', 'p1']];
+    const on = this.state.on;
+    const animes = list.map((x) => ({ title: x[1], color: x[2], on: !!on[x[0]], toggle: () => this.setState({ on: Object.assign({}, this.state.on, { [x[0]]: !this.state.on[x[0]] }) }) }));
+    const count = animes.filter((a) => a.on).length;
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), animes: animes, count: count };
+  }
+}
+</script>
+</body>
+</html>

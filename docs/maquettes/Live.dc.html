@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Live</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen media">
+<div class="island"></div>
+<div class="center" style="position: absolute; inset: 0; background: #3b2a4a; gap: 10px" aria-label="Live de Sora">
+<i class="ic s40 i-palette" aria-hidden="true" style="color: #e8d8f5"></i>
+<span class="cap" style="color: #e8d8f5">[Flux live · Sora dessine en direct]</span>
+</div>
+<div class="status white" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="row g8" style="position: relative; z-index: 5; padding: 4px 12px 0 16px; color: #ffffff">
+<a class="row g8" href="ProfilMembre.dc.html" style="padding: 4px 12px 4px 4px; border-radius: 999px; background: rgba(0,0,0,.4); color: #ffffff; text-decoration: none"><span class="av s a4" aria-hidden="true">S</span><span class="stack"><b class="b8 sm">Sora</b><span class="cap" style="color: #e1e3fb">Fan art live</span></span></a>
+<span class="badge b-live" style="background: #e5484d; color: #ffffff">EN DIRECT</span>
+<span class="badge" style="background: rgba(0,0,0,.4); color: #ffffff"><i class="ic i-eye" aria-hidden="true"></i>312</span>
+<span class="grow"></span>
+<a class="ib" href="Guild.dc.html" aria-label="Quitter le live" style="background: rgba(0,0,0,.4); border-radius: 50%; color: #ffffff"><i class="ic i-x" aria-hidden="true"></i></a>
+</div>
+<div class="grow"></div>
+<div class="stack g8" style="position: relative; z-index: 5; padding: 0 16px; max-width: 280px">
+<p class="sm" style="padding: 6px 12px; border-radius: 14px; background: rgba(0,0,0,.4); color: #ffffff; align-self: flex-start"><b class="b8" style="color: #ffc531">Aïko</b> Les couleurs sont dingues</p>
+<p class="sm" style="padding: 6px 12px; border-radius: 14px; background: rgba(0,0,0,.4); color: #ffffff; align-self: flex-start"><b class="b8" style="color: #ff8fb1">Kenji</b> a offert 50 pièces</p>
+<p class="sm" style="padding: 6px 12px; border-radius: 14px; background: rgba(0,0,0,.4); color: #ffffff; align-self: flex-start"><b class="b8" style="color: #9fd8f7">Yuna</b> Tu fais un tuto après ?</p>
+</div>
+<div class="row g8" style="position: relative; z-index: 5; padding: 12px 16px 44px">
+<label class="input grow" style="min-height: 46px; background: rgba(0,0,0,.4); border-color: rgba(255,255,255,.25); color: #ffffff"><input type="text" placeholder="Commenter" aria-label="Commenter le live" style="color: #ffffff"></label>
+<button class="btn round gold" aria-label="Offrir des pièces" style="width: 48px; height: 48px"><i class="ic i-gift" aria-hidden="true"></i></button>
+<button class="btn round s" onClick="{{ like }}" aria-label="Envoyer un cœur, {{ likes }}" style="width: 48px; height: 48px"><i class="ic i-heart-fill" aria-hidden="true"></i></button>
+</div>
+<div class="home white"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), likes: 1204 }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), likes: this.state.likes, like: () => this.setState({ likes: this.state.likes + 1 }) }; }
+}
+</script>
+</body>
+</html>

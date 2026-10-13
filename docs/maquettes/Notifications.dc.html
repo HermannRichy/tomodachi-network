@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Notifications</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Feed.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Notifications</span><a class="ib" href="Parametres.dc.html" aria-label="Réglages des notifications"><i class="ic i-gear-six" aria-hidden="true"></i></a></div>
+<div class="main" style="gap: 12px; padding: 4px 16px 0">
+<div class="segtabs" role="tablist" aria-label="Filtrer les notifications"><button class="on" role="tab" aria-selected="true">Tout</button><button role="tab" aria-selected="false">Mentions</button><button role="tab" aria-selected="false">Guild</button></div>
+<h2 class="section-t">Aujourd'hui</h2>
+<a class="card gold tight" href="NiveauSup.dc.html" style="flex-direction: row; align-items: center; gap: 12px"><img class="kami" src="/_blob/1df6506d2e5adfc222b3f48ccc4a05a9" width="44" height="41" alt=""><span class="stack g4 grow"><b class="b8 sm">Kami-sama : tu passes niveau 13 !</b><span class="cap" style="color: var(--gold-ink)">Nouveau titre débloqué · il y a 5 min</span></span><i class="ic s20 i-caret-right" aria-hidden="true"></i></a>
+<div class="list">
+<a class="li" href="Publication.dc.html"><span class="av a1" aria-hidden="true">A</span><span class="stack g4 grow"><span class="sm"><b class="b8">Aïko</b> a réagi <b class="b8 c-sakura">Sugoi</b> à ta critique</span><span class="cap muted">il y a 12 min</span></span><span class="count" style="min-width: 10px; width: 10px; height: 10px; padding: 0" aria-label="Non lu"></span></a>
+<div class="li"><span class="av a2" aria-hidden="true">K</span><span class="stack g6 grow"><span class="sm"><b class="b8">Kenji</b> t'invite à une watch party ce soir à 21 h</span><a class="btn s sm" href="WatchParty.dc.html" style="align-self: flex-start; min-height: 36px">Rejoindre</a></span></div>
+<a class="li" href="Publication.dc.html"><span class="av a4" aria-hidden="true">S</span><span class="stack g4 grow"><span class="sm"><b class="b8">Sora</b> a répondu : « Le foreshadowing était là dès l'épisode 3… »</span><span class="cap muted">il y a 1 h</span></span></a>
+</div>
+<h2 class="section-t">Cette semaine</h2>
+<div class="list">
+<a class="li" href="Senpai.dc.html"><span class="center" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-ink)"><i class="ic s20 i-graduation-cap" aria-hidden="true"></i></span><span class="stack g4 grow"><span class="sm"><b class="b8">Yuna</b> est devenue ta kohai</span><span class="cap muted">Lun.</span></span></a>
+<a class="li" href="GuerreGuilds.dc.html"><span class="center" style="width: 40px; height: 40px; border-radius: 50%; background: var(--sakura-soft); color: var(--sakura-ink)"><i class="ic s20 i-sword" aria-hidden="true"></i></span><span class="stack g4 grow"><span class="sm">La guerre contre <b class="b8">Kitsune Clan</b> a commencé</span><span class="cap muted">Dim.</span></span></a>
+</div>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab on" href="Feed.dc.html"><i class="ic i-house-fill" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab" href="Profil.dc.html"><i class="ic i-user" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

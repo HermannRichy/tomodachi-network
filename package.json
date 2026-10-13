@@ -1,0 +1,26 @@
+{
+  "name": "tomodachi-network",
+  "private": true,
+  "description": "Tomodachi, le réseau social des otakus (mobile, web et API).",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@tomodachi/web",
+    "dev:mobile": "pnpm --filter @tomodachi/mobile start",
+    "dev:backend": "turbo run dev --filter=@tomodachi/backend",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "tokens": "pnpm --filter @tomodachi/design-tokens run build",
+    "db:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "db:down": "docker compose -f infra/docker/docker-compose.yml down",
+    "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\""
+  },
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "turbo": "2.11.7"
+  }
+}

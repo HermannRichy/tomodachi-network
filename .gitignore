@@ -1,0 +1,30 @@
+# Dépendances
+node_modules/
+
+# Builds
+dist/
+.next/
+out/
+build/
+.turbo/
+*.tsbuildinfo
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts
+
+# Environnement
+.env
+.env*.local
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+
+# Systèmes
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.idea/

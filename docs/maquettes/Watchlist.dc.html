@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Tracker de visionnage</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Profil.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Mon visionnage</span><a class="ib" href="Explorer.dc.html" aria-label="Ajouter un anime"><i class="ic i-plus" aria-hidden="true"></i></a></div>
+<div class="main" style="gap: 14px; padding: 4px 16px 0">
+<div class="segtabs" role="tablist" aria-label="Listes"><button class="on" role="tab" aria-selected="true">En cours · 3</button><button role="tab" aria-selected="false">Terminés · 148</button><button role="tab" aria-selected="false">À voir · 12</button></div>
+<div class="card primary tight" style="flex-direction: row; align-items: center; gap: 12px"><i class="ic s32 i-film-strip" aria-hidden="true"></i><span class="stack g4 grow"><b class="b8 body">Cette semaine</b><span class="sm tnum" style="opacity: 0.9">9 épisodes · 3 h 36 · +90 EXP</span></span></div>
+<div class="stack g10">
+<sc-for list="{{ shows }}" as="s" hint-placeholder-count="3">
+<div class="card tight" style="flex-direction: row; gap: 12px; align-items: center">
+<a class="poster {{ s.color }}" href="FicheAnime.dc.html" aria-label="{{ s.title }}" style="width: 60px; flex-shrink: 0; padding: 0"></a>
+<div class="stack g6 grow">
+<a href="FicheAnime.dc.html" class="b8 body" style="color: var(--ink); text-decoration: none">{{ s.title }}</a>
+<span class="cap muted tnum">Épisode {{ s.ep }} / {{ s.total }} · {{ s.next }}</span>
+<span class="bar thin watch"><i style="width: {{ s.pct }}%"></i></span>
+</div>
+<button class="btn g sm" onClick="{{ s.plus }}" aria-label="Marquer l'épisode suivant comme vu" style="padding: 0 12px">+1</button>
+</div>
+</sc-for>
+</div>
+<section class="stack g8">
+<div class="row between"><h2 class="section-t">À voir ensuite</h2><a class="lbl" href="Explorer.dc.html">Tout voir</a></div>
+<div class="grid3">
+<a class="poster p6" href="FicheAnime.dc.html"><span>Le Dernier Ronin</span></a>
+<a class="poster p5" href="FicheAnime.dc.html"><span>Esprits de Kyoto</span></a>
+<a class="poster p2" href="FicheAnime.dc.html"><span>Isekai Boulanger</span></a>
+</div>
+</section>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab" href="Feed.dc.html"><i class="ic i-house" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab on" href="Profil.dc.html"><i class="ic i-user-fill" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), eps: { s1: 8, s2: 3, s3: 17 } }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme; const eps = this.state.eps;
+    const list = [['s1', 'Lames du crépuscule', 'p1', 24, 'nouvel épisode samedi'], ['s2', 'Académie Hoshizora', 'p2', 12, 'saison complète'], ['s3', 'Mecha Aurora', 'p3', 26, 'nouvel épisode mardi']];
+    const shows = list.map((x) => { const ep = eps[x[0]]; return { title: x[1], color: x[2], total: x[3], next: x[4], ep: ep, pct: Math.round(ep / x[3] * 100), plus: () => { const n = Object.assign({}, this.state.eps); n[x[0]] = Math.min(x[3], n[x[0]] + 1); this.setState({ eps: n }); } }; });
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), shows: shows };
+  }
+}
+</script>
+</body>
+</html>

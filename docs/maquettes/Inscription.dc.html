@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Inscription</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Main.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Créer un compte</span></div>
+<div class="main" style="gap: 16px; padding: 4px 20px 40px">
+<p class="body muted">Quelques infos et tu rejoins les nakama.</p>
+<label class="field"><span class="lab">Pseudo</span><span class="input focus"><span class="b8 c-primary">@</span><input type="text" value="ren_sensei" aria-label="Pseudo"><i class="ic s20 i-check-circle c-success" aria-hidden="true"></i></span><span class="hint ok">Ce pseudo est libre.</span></label>
+<label class="field"><span class="lab">Email</span><span class="input"><i class="ic s20 i-envelope-simple" aria-hidden="true"></i><input type="email" placeholder="toi@exemple.com" aria-label="Email"></span></label>
+<label class="field"><span class="lab">Mot de passe</span><span class="input"><i class="ic s20 i-lock-simple" aria-hidden="true"></i><input type="password" value="motdepasse12" aria-label="Mot de passe"><button class="ib" aria-label="Afficher le mot de passe" style="width: 36px; height: 36px; color: var(--ink-muted)"><i class="ic s20 i-eye" aria-hidden="true"></i></button></span>
+<span class="row g8"><span class="bar thin gold grow"><i style="width: 75%"></i></span><span class="lbl c-gold">Solide</span></span></label>
+<div class="check"><span class="box on" aria-hidden="true"><i class="ic i-check"></i></span><span>J'accepte les <a href="#cgu">CGU</a> et la <a href="#confidentialite">politique de confidentialité</a>.</span></div>
+<div class="row g8" style="padding: 10px 12px; border-radius: 14px; background: var(--success-soft); color: var(--success-ink)"><i class="ic s20 i-shield-check" aria-hidden="true"></i><span class="sm b8">Vérification anti-bot réussie</span></div>
+<div class="stack g10 push">
+<a class="btn p block" href="Verification.dc.html">Créer mon compte</a>
+<p class="sm muted" style="text-align: center">Déjà inscrit ? <a class="b8" href="Connexion.dc.html">Se connecter</a></p>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Profil d'Aïko</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div style="background: var(--sakura); color: var(--on-sakura); flex-shrink: 0; height: 150px; position: relative">
+<div class="status on-sakura" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="min-height: 44px; padding-top: 0"><a class="ib" href="Feed.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="grow"></span><a class="ib" href="Signaler.dc.html" aria-label="Plus d'options"><i class="ic i-dots-three" aria-hidden="true"></i></a></div>
+</div>
+<div class="main" style="gap: 12px; padding: 0 16px; margin-top: -44px">
+<div class="row between" style="align-items: flex-end"><span class="av xl a1" aria-hidden="true" style="border: 4px solid var(--bg)">A</span><span class="badge b-gold" style="margin-bottom: 8px">Niv. 14</span></div>
+<div class="stack g4">
+<div class="row g8"><h1 class="t2">Aïko</h1><span class="badge b-sak"><i class="ic i-sparkle" aria-hidden="true"></i>Mage</span></div>
+<p class="sm muted">@aiko_art · Fan art et théories sur les shōnen. Guild Sakura Ronin.</p>
+</div>
+<div class="row g16 sm"><span><b class="b9 tnum">212</b> <span class="muted">publications</span></span><span><b class="b9 tnum">540</b> <span class="muted">nakama</span></span><span><b class="b9 tnum">5 310</b> <span class="muted">power</span></span></div>
+<div class="row g8">
+<button class="{{ addCls }}" aria-pressed="{{ added }}" onClick="{{ toggleAdd }}" style="flex: 1"><i class="{{ addIcon }}" aria-hidden="true"></i>{{ addLabel }}</button>
+<a class="btn g icon" href="Conversation.dc.html" aria-label="Envoyer un message"><i class="ic i-chat-circle-dots" aria-hidden="true"></i></a>
+</div>
+<div class="row g8" style="padding: 10px 12px; border-radius: 14px; background: var(--primary-soft); color: var(--primary-ink)"><i class="ic s20 i-handshake" aria-hidden="true"></i><span class="sm b8">3 animes en commun · Lames du crépuscule, Mecha Aurora…</span></div>
+<div class="segtabs" role="tablist" aria-label="Contenu du profil"><button class="on" role="tab" aria-selected="true">Publications</button><button role="tab" aria-selected="false">Fan art</button><button role="tab" aria-selected="false">Watchlist</button></div>
+<div class="grid3">
+<a class="poster p2" href="Publication.dc.html" style="aspect-ratio: 1"><span>Théorie ép. 12</span></a>
+<a class="poster p5" href="Publication.dc.html" style="aspect-ratio: 1"><span>Fan art</span></a>
+<a class="poster p1" href="Publication.dc.html" style="aspect-ratio: 1"><span>Top 5 combats</span></a>
+<a class="poster p6" href="Publication.dc.html" style="aspect-ratio: 1"><span>Cosplay</span></a>
+<a class="poster p3" href="Publication.dc.html" style="aspect-ratio: 1"><span>Mecha sketch</span></a>
+<a class="poster p4" href="Publication.dc.html" style="aspect-ratio: 1"><span>Critique</span></a>
+</div>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab on" href="Feed.dc.html"><i class="ic i-house-fill" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab" href="Profil.dc.html"><i class="ic i-user" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), added: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; const a = this.state.added; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), added: a, addCls: a ? 'btn g' : 'btn p', addIcon: a ? 'ic i-check' : 'ic i-user-plus', addLabel: a ? 'Nakama' : 'Ajouter en nakama', toggleAdd: () => this.setState({ added: !this.state.added }) }; }
+}
+</script>
+</body>
+</html>

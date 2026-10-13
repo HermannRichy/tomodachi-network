@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Explorer</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="gap: 8px; padding: 2px 16px 8px"><a class="ib" href="Feed.dc.html" aria-label="Retour" style="margin-left: -8px"><i class="ic i-arrow-left" aria-hidden="true"></i></a><label class="input sunk focus grow" style="min-height: 46px"><i class="ic s20 i-magnifying-glass" aria-hidden="true"></i><input type="search" placeholder="Animes, nakama, guilds, #tags" aria-label="Rechercher"></label></div>
+<div class="main" style="gap: 16px; padding: 4px 16px 0">
+<div class="row g8"><span class="chip on">Tout</span><span class="chip">Animes</span><span class="chip">Nakama</span><span class="chip">Guilds</span></div>
+<a class="card primary tight" href="Affinites.dc.html" style="flex-direction: row; align-items: center; gap: 12px"><i class="ic s28 i-users-three" aria-hidden="true"></i><span class="stack g4 grow"><b class="b8 body">Trouver des nakama</b><span class="cap" style="opacity: 0.9">Des fans qui aiment les mêmes animes que toi</span></span><i class="ic s20 i-caret-right" aria-hidden="true"></i></a>
+<section class="stack g8">
+<h2 class="section-t">Tendances</h2>
+<div class="list">
+<a class="li" href="Feed.dc.html"><span class="t3 c-sakura tnum" style="width: 20px">1</span><span class="stack g4 grow"><b class="b8 body">#LamesDuCrépuscule</b><span class="cap muted">2 340 publications aujourd'hui</span></span><i class="ic i-fire c-sakura" aria-hidden="true"></i></a>
+<a class="li" href="Arc.dc.html"><span class="t3 c-sakura tnum" style="width: 20px">2</span><span class="stack g4 grow"><b class="b8 body">#AutomneDesYokai</b><span class="cap muted">Arc de saison · 1 120 publications</span></span></a>
+<a class="li" href="Feed.dc.html"><span class="t3 c-sakura tnum" style="width: 20px">3</span><span class="stack g4 grow"><b class="b8 body">#FanArtFriday</b><span class="cap muted">860 publications</span></span></a>
+</div>
+</section>
+<section class="stack g8">
+<div class="row between"><h2 class="section-t">Animes populaires</h2><a class="lbl" href="Watchlist.dc.html">Tout voir</a></div>
+<div class="grid3">
+<a class="poster p3" href="FicheAnime.dc.html"><span>Mecha Aurora</span></a>
+<a class="poster p1" href="FicheAnime.dc.html"><span>Lames du crépuscule</span></a>
+<a class="poster p4" href="FicheAnime.dc.html"><span>Cuisine d'Edo</span></a>
+</div>
+</section>
+<section class="stack g8">
+<div class="row between"><h2 class="section-t">Guilds à découvrir</h2><a class="lbl" href="Guilds.dc.html">Tout voir</a></div>
+<a class="card tight" href="Guilds.dc.html" style="flex-direction: row; align-items: center; gap: 12px"><span class="center" style="width: 44px; height: 44px; border-radius: 14px; background: var(--primary); color: var(--on-primary)"><i class="ic i-shield-fill" aria-hidden="true"></i></span><span class="stack g4 grow"><b class="b8 body">Kitsune Clan</b><span class="cap muted">Rang #2 · 124 membres</span></span><span class="btn g sm">Voir</span></a>
+</section>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab on" href="Feed.dc.html"><i class="ic i-house-fill" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab" href="Profil.dc.html"><i class="ic i-user" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

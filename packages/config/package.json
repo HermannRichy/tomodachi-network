@@ -1,0 +1,9 @@
+{
+  "name": "@tomodachi/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Configurations partagées du monorepo Tomodachi (TypeScript).",
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  }
+}

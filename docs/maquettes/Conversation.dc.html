@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Conversation avec Aïko</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="border-bottom: 2px solid var(--border); padding-bottom: 8px"><a class="ib" href="Messages.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><a class="row g10 grow" href="ProfilMembre.dc.html" style="text-decoration: none; color: var(--ink)"><span class="av a1 online" aria-hidden="true">A</span><span class="stack"><b class="b8 body">Aïko</b><span class="cap c-success">En ligne</span></span></a><a class="ib" href="AppelVocal.dc.html" aria-label="Appel vocal"><i class="ic i-phone" aria-hidden="true"></i></a><a class="ib" href="AppelVideo.dc.html" aria-label="Appel vidéo"><i class="ic i-video-camera" aria-hidden="true"></i></a></div>
+<div class="main" style="gap: 10px; padding: 14px 16px; justify-content: flex-end">
+<span class="sys" style="background: var(--surface-sunken); color: var(--ink-muted)">Aujourd'hui</span>
+<div class="bubble">Tu as vu la fin de l'épisode 12 ?</div>
+<div class="bubble me">Pas encore, j'en suis au 8. Pas de spoil !</div>
+<div class="bubble" style="padding: 8px"><a class="card tight" href="Publication.dc.html" style="border-width: 2px; gap: 6px"><span class="row g6"><span class="av xs a1" aria-hidden="true">A</span><b class="b8 cap">Aïko</b></span><span class="sm">Ma théorie sur le mentor…</span><span class="badge b-sak" style="align-self: flex-start"><i class="ic i-eye-slash" aria-hidden="true"></i>Spoiler masqué</span></a></div>
+<div class="bubble">Promis. Watch party ce soir pour rattraper ?</div>
+<sc-for list="{{ sent }}" as="m" hint-placeholder-count="0">
+<div class="bubble me">{{ m.text }}</div>
+</sc-for>
+<span class="cap muted" style="align-self: flex-end">Vu à 21:05</span>
+</div>
+<div class="row g8" style="padding: 0 16px 8px; overflow: hidden"><button class="chip react" onClick="{{ quick1 }}" style="min-height: 36px">Carrément !</button><button class="chip react" onClick="{{ quick2 }}" style="min-height: 36px">Sugoi</button><button class="chip react" onClick="{{ quick3 }}" style="min-height: 36px">21 h ça marche</button></div>
+<div class="composer">
+<button class="ib" aria-label="Joindre un fichier" style="color: var(--primary)"><i class="ic i-plus-circle" aria-hidden="true"></i></button>
+<label class="input sunk grow" style="min-height: 44px"><input type="text" placeholder="Écrire à Aïko" aria-label="Message" value="{{ draft }}" onChange="{{ type }}"><i class="ic s20 i-smiley" aria-hidden="true"></i></label>
+<button class="btn p icon" aria-label="Envoyer" onClick="{{ send }}" style="min-height: 44px; width: 44px; border-radius: 14px"><i class="ic i-paper-plane-right" aria-hidden="true"></i></button>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), draft: '', sent: [] }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  push(text) { const v = (text || '').trim(); if (!v) return; this.setState({ sent: this.state.sent.concat([{ text: v }]).slice(-3), draft: '' }); }
+  renderVals() {
+    const t = this.state.theme;
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'),
+      draft: this.state.draft, sent: this.state.sent, type: (e) => this.setState({ draft: e.target.value }), send: () => this.push(this.state.draft),
+      quick1: () => this.push('Carrément !'), quick2: () => this.push('Sugoi'), quick3: () => this.push('21 h ça marche') };
+  }
+}
+</script>
+</body>
+</html>

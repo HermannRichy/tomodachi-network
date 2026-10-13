@@ -1,0 +1,76 @@
+/* Copie de packages/design-tokens/nativewind.css, recopiée par `pnpm tokens`. Ne pas modifier ici. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --tomo-background: 246 247 252;
+    --tomo-surface: 255 255 255;
+    --tomo-surface-sunken: 233 235 244;
+    --tomo-border: 227 229 240;
+    --tomo-border-depth: 211 214 230;
+    --tomo-ink: 27 30 46;
+    --tomo-ink-muted: 86 91 120;
+    --tomo-primary: 58 70 200;
+    --tomo-primary-depth: 42 50 144;
+    --tomo-on-primary: 255 255 255;
+    --tomo-primary-soft: 230 232 251;
+    --tomo-primary-ink: 42 50 144;
+    --tomo-sakura: 194 65 106;
+    --tomo-sakura-depth: 143 42 76;
+    --tomo-on-sakura: 255 255 255;
+    --tomo-sakura-soft: 252 227 234;
+    --tomo-sakura-ink: 122 34 64;
+    --tomo-gold: 255 197 49;
+    --tomo-on-gold: 107 74 0;
+    --tomo-gold-depth: 229 164 0;
+    --tomo-gold-soft: 255 241 208;
+    --tomo-gold-ink: 107 74 0;
+    --tomo-success: 46 157 107;
+    --tomo-success-soft: 220 242 231;
+    --tomo-success-ink: 31 107 73;
+    --tomo-danger: 200 50 59;
+    --tomo-on-danger: 255 255 255;
+    --tomo-danger-soft: 253 228 229;
+    --tomo-danger-ink: 138 28 35;
+    --tomo-slime: 63 182 245;
+    --tomo-slime-depth: 30 143 214;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --tomo-background: 18 19 28;
+      --tomo-surface: 27 29 42;
+      --tomo-surface-sunken: 36 39 56;
+      --tomo-border: 44 47 66;
+      --tomo-border-depth: 58 62 85;
+      --tomo-ink: 233 234 243;
+      --tomo-ink-muted: 163 167 194;
+      --tomo-primary: 142 152 255;
+      --tomo-primary-depth: 95 105 217;
+      --tomo-on-primary: 18 20 43;
+      --tomo-primary-soft: 38 42 74;
+      --tomo-primary-ink: 201 205 255;
+      --tomo-sakura: 242 138 163;
+      --tomo-sakura-depth: 194 88 122;
+      --tomo-on-sakura: 43 15 24;
+      --tomo-sakura-soft: 58 31 42;
+      --tomo-sakura-ink: 255 194 210;
+      --tomo-gold: 255 197 49;
+      --tomo-on-gold: 74 51 0;
+      --tomo-gold-depth: 201 143 0;
+      --tomo-gold-soft: 58 47 18;
+      --tomo-gold-ink: 255 224 138;
+      --tomo-success: 92 203 151;
+      --tomo-success-soft: 23 56 40;
+      --tomo-success-ink: 168 232 200;
+      --tomo-danger: 255 138 143;
+      --tomo-on-danger: 43 15 18;
+      --tomo-danger-soft: 58 26 29;
+      --tomo-danger-ink: 255 194 197;
+      --tomo-slime: 63 182 245;
+      --tomo-slime-depth: 30 143 214;
+    }
+  }
+}

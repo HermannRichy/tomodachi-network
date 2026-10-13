@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Premiers nakama</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Interets.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><div class="steps grow" aria-label="Étape 3 sur 3"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="lbl muted" style="padding: 0 12px">3/3</span></div>
+<div class="main" style="gap: 12px; padding: 4px 20px 40px">
+<div class="stack g4">
+<h1 class="t1">Tes premiers nakama</h1>
+<p class="body muted">Ils aiment les mêmes animes que toi.</p>
+</div>
+<div class="list">
+<sc-for list="{{ people }}" as="u" hint-placeholder-count="4">
+<div class="li">
+<span class="av m {{ u.color }}" aria-hidden="true">{{ u.initial }}</span>
+<span class="stack g4 grow"><span class="row g6"><b class="b8 body">{{ u.name }}</b><span class="badge b-gold">Niv. {{ u.level }}</span></span><span class="cap muted ellipsis">{{ u.why }}</span></span>
+<button class="{{ u.cls }}" aria-pressed="{{ u.on }}" onClick="{{ u.toggle }}">{{ u.label }}</button>
+</div>
+</sc-for>
+</div>
+<div class="card">
+<div class="row g10">
+<span class="center" style="width: 48px; height: 48px; border-radius: 14px; background: var(--sakura); color: var(--on-sakura)"><i class="ic i-shield-fill" aria-hidden="true"></i></span>
+<span class="stack g4 grow"><span class="t3">Sakura Ronin</span><span class="cap muted">Guild shōnen · 86 membres · Rang #3</span></span>
+</div>
+<a class="btn s sm block" href="Guild.dc.html">Rejoindre la guild</a>
+</div>
+<div class="row g8" style="padding: 10px 12px; border-radius: 14px; background: var(--gold-soft); color: var(--gold-ink)"><img class="kami" src="/_blob/1df6506d2e5adfc222b3f48ccc4a05a9" width="34" height="32" alt=""><span class="sm b8">Profil créé : +100 EXP offerts par Kami-sama</span></div>
+<a class="btn p block push" href="Feed.dc.html">C'est parti !</a>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), added: { aiko: true } }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme;
+    const list = [['aiko', 'Aïko', 'A', 'a1', 14, 'Aime aussi Lames du crépuscule'], ['kenji', 'Kenji', 'K', 'a2', 9, 'Guild Sakura Ronin'], ['yuna', 'Yuna', 'Y', 'a3', 6, '3 animes en commun'], ['sora', 'Sora', 'S', 'a4', 21, 'Top critique Mecha Aurora']];
+    const people = list.map((x) => { const on = !!this.state.added[x[0]]; return { name: x[1], initial: x[2], color: x[3], level: x[4], why: x[5], on: on, label: on ? 'Ajouté' : 'Ajouter', cls: on ? 'btn g sm' : 'btn p sm', toggle: () => this.setState({ added: Object.assign({}, this.state.added, { [x[0]]: !this.state.added[x[0]] }) }) }; });
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), people: people };
+  }
+}
+</script>
+</body>
+</html>

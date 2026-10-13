@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Résultat du quiz</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><span class="grow"></span><a class="ib" href="GuerreGuilds.dc.html" aria-label="Fermer"><i class="ic i-x" aria-hidden="true"></i></a></div>
+<div class="main" style="gap: 18px; padding: 0 20px 40px">
+<div class="center" style="gap: 10px">
+<span class="center" style="width: 96px; height: 96px; border-radius: 30px; background: var(--gold); color: var(--on-gold); border-bottom: 6px solid var(--gold-depth)"><i class="ic s40 i-trophy" aria-hidden="true"></i></span>
+<h1 class="t1">Victoire !</h1>
+<p class="body muted">Tu bats Kenji du Kitsune Clan.</p>
+</div>
+<div class="card" style="flex-direction: row; justify-content: space-around; align-items: center">
+<div class="center" style="gap: 4px"><span class="av m a5" aria-hidden="true">R</span><b class="b8 sm">Toi</b><b class="t1 c-primary tnum">800</b></div>
+<span class="lbl muted">VS</span>
+<div class="center" style="gap: 4px"><span class="av m a2" aria-hidden="true">K</span><b class="b8 sm">Kenji</b><b class="t1 muted tnum">600</b></div>
+</div>
+<div class="grid3">
+<div class="card tight" style="align-items: center"><b class="t3 c-success tnum">8/10</b><span class="cap muted">Bonnes réponses</span></div>
+<div class="card tight" style="align-items: center"><b class="t3 tnum">4,2 s</b><span class="cap muted">Temps moyen</span></div>
+<div class="card tight" style="align-items: center"><b class="t3 c-sakura tnum">x3</b><span class="cap muted">Meilleure série</span></div>
+</div>
+<div class="list">
+<div class="li"><i class="ic lead i-lightning" aria-hidden="true" style="color: var(--gold-depth)"></i><span class="grow b8 sm">EXP gagnée</span><b class="b9 sm tnum c-gold">+120</b></div>
+<div class="li"><i class="ic lead i-shield" aria-hidden="true" style="color: var(--sakura)"></i><span class="grow b8 sm">Points pour Sakura Ronin</span><b class="b9 sm tnum c-sakura">+200</b></div>
+<div class="li"><i class="ic lead i-target" aria-hidden="true"></i><span class="grow b8 sm">Défi « 5 quiz gagnés »</span><b class="b9 sm tnum">3 / 5</b></div>
+</div>
+<div class="grid2 push">
+<a class="btn g" href="GuerreGuilds.dc.html">Terminer</a>
+<a class="btn p" href="Quiz.dc.html">Revanche</a>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

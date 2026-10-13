@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Senpai et kohai</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Profil.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Senpai et kohai</span></div>
+<div class="main" style="gap: 14px; padding: 4px 16px 24px">
+<div class="row g12" style="gap: 12px; padding: 14px; border-radius: 18px; background: var(--primary-soft); color: var(--primary-ink)"><i class="ic s32 i-graduation-cap" aria-hidden="true"></i><p class="sm b8">Guide les nouveaux nakama. Quand ton kohai monte de niveau, vous gagnez tous les deux de l'EXP.</p></div>
+<section class="stack g8">
+<h2 class="section-t">Ton senpai</h2>
+<a class="card tight" href="ProfilMembre.dc.html" style="flex-direction: row; align-items: center; gap: 12px"><span class="av m a4" aria-hidden="true">S</span><span class="stack g4 grow"><b class="b8 body">Sora</b><span class="cap muted">Niv. 21 · ton senpai depuis mars</span></span><span class="btn g sm"><i class="ic i-chat-circle-dots" aria-hidden="true"></i></span></a>
+</section>
+<section class="stack g8">
+<div class="row between"><h2 class="section-t">Tes kohai</h2><span class="cap muted tnum">2 / 3 places</span></div>
+<div class="card tight">
+<div class="row g10"><span class="av a3" aria-hidden="true">Y</span><span class="stack g4 grow"><b class="b8 sm">Yuna</b><span class="cap muted tnum">Niv. 6 · objectif niveau 10</span></span><span class="badge b-gold">+40 EXP</span></div>
+<span class="bar thin"><i style="width: 60%"></i></span>
+</div>
+<div class="card tight">
+<div class="row g10"><span class="av a6" aria-hidden="true">M</span><span class="stack g4 grow"><b class="b8 sm">Mika</b><span class="cap muted tnum">Niv. 2 · a rejoint il y a 3 j</span></span><span class="badge b-pri">Nouveau</span></div>
+<span class="bar thin"><i style="width: 20%"></i></span>
+</div>
+</section>
+<section class="stack g8">
+<h2 class="section-t">Nouveaux qui cherchent un senpai</h2>
+<div class="list">
+<div class="li"><span class="av s a2" aria-hidden="true">T</span><span class="stack g4 grow"><b class="b8 sm">Taro</b><span class="cap muted">Aime Lames du crépuscule</span></span><button class="{{ propCls }}" onClick="{{ propose }}">{{ propLabel }}</button></div>
+</div>
+</section>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), proposed: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; const p = this.state.proposed; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), propCls: p ? 'btn g sm' : 'btn p sm', propLabel: p ? 'Proposé' : 'Proposer', propose: () => this.setState({ proposed: true }) }; }
+}
+</script>
+</body>
+</html>

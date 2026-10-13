@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Paramètres</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Profil.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Paramètres</span></div>
+<div class="main" style="gap: 10px; padding: 4px 16px 24px">
+<h2 class="section-t">Apparence</h2>
+<div class="segtabs" role="radiogroup" aria-label="Thème de l'application"><button class="{{ lightCls }}" role="radio" aria-checked="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true" style="margin-right: 6px"></i>Clair</button><button class="{{ darkCls }}" role="radio" aria-checked="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true" style="margin-right: 6px"></i>Sombre</button></div>
+<div class="list"><div class="li" style="min-height: 52px"><i class="ic lead i-translate" aria-hidden="true"></i><span class="grow b8 sm">Langue</span><span class="sm muted">Français</span><i class="ic chev i-caret-right" aria-hidden="true"></i></div></div>
+<h2 class="section-t" style="margin-top: 6px">Compte et sécurité</h2>
+<div class="list">
+<a class="li" href="DeuxFacteurs.dc.html" style="min-height: 52px"><i class="ic lead i-shield-check" aria-hidden="true"></i><span class="grow b8 sm">Double authentification</span><span class="badge b-suc">Activée</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+<a class="li" href="#email" style="min-height: 52px"><i class="ic lead i-envelope-simple" aria-hidden="true"></i><span class="grow b8 sm">Email</span><span class="sm muted ellipsis" style="max-width: 130px">ren@exemple.com</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+</div>
+<h2 class="section-t" style="margin-top: 6px">Confidentialité</h2>
+<div class="list">
+<div class="li" style="min-height: 52px"><i class="ic lead i-lock-simple" aria-hidden="true"></i><span class="grow b8 sm">Compte privé</span><button class="{{ privCls }}" role="switch" aria-checked="{{ priv }}" aria-label="Compte privé" onClick="{{ togglePriv }}"></button></div>
+<div class="li" style="min-height: 52px"><i class="ic lead i-eye-slash" aria-hidden="true"></i><span class="grow b8 sm">Masquer les spoilers</span><button class="{{ spoilCls }}" role="switch" aria-checked="{{ spoil }}" aria-label="Masquer les spoilers" onClick="{{ toggleSpoil }}"></button></div>
+<div class="li" style="min-height: 52px"><i class="ic lead i-bell" aria-hidden="true"></i><span class="grow b8 sm">Notifications push</span><button class="{{ pushCls }}" role="switch" aria-checked="{{ push }}" aria-label="Notifications push" onClick="{{ togglePush }}"></button></div>
+<a class="li" href="#bloques" style="min-height: 52px"><i class="ic lead i-prohibit" aria-hidden="true"></i><span class="grow b8 sm">Comptes bloqués</span><span class="sm muted">2</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+</div>
+<a class="btn g block push" href="Main.dc.html" style="color: var(--danger)"><i class="ic i-sign-out" aria-hidden="true"></i>Se déconnecter</a>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), priv: false, spoil: true, push: true }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme; const s = this.state;
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'),
+      priv: s.priv, privCls: s.priv ? 'toggle on' : 'toggle', togglePriv: () => this.setState({ priv: !this.state.priv }),
+      spoil: s.spoil, spoilCls: s.spoil ? 'toggle on' : 'toggle', toggleSpoil: () => this.setState({ spoil: !this.state.spoil }),
+      push: s.push, pushCls: s.push ? 'toggle on' : 'toggle', togglePush: () => this.setState({ push: !this.state.push }) };
+  }
+}
+</script>
+</body>
+</html>

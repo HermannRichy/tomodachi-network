@@ -1,0 +1,29 @@
+# Services locaux pour le développement de l'API : `pnpm db:up` depuis la racine.
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: tomodachi-postgres
+    environment:
+      POSTGRES_USER: tomodachi
+      POSTGRES_PASSWORD: tomodachi
+      POSTGRES_DB: tomodachi
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tomodachi']
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: tomodachi-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+
+volumes:
+  postgres-data:
+  redis-data:

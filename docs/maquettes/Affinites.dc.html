@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rencontres par affinité</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Explorer.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Trouver des nakama</span><button class="ib" aria-label="Filtres"><i class="ic i-sliders-horizontal" aria-hidden="true"></i></button></div>
+<div class="main" style="gap: 14px; padding: 4px 20px 40px">
+<p class="sm muted" style="text-align: center">Des fans qui partagent tes animes. Amitié uniquement.</p>
+<div style="position: relative; flex: 1; min-height: 0">
+<div class="card" style="position: absolute; inset: 14px 12px -10px; opacity: 0.6" aria-hidden="true"></div>
+<div class="card" style="position: relative; height: 100%; gap: 12px; align-items: center; text-align: center; padding: 20px 16px">
+<span class="badge b-off" style="font-size: 14px; padding: 6px 12px"><i class="ic s18 i-sparkle" aria-hidden="true"></i>{{ p.match }} d'affinité</span>
+<span class="av xl {{ p.color }}" aria-hidden="true">{{ p.initial }}</span>
+<div class="stack g4"><h1 class="t2">{{ p.name }}</h1><span class="sm muted">{{ p.meta }}</span></div>
+<p class="sm">{{ p.bio }}</p>
+<div class="stack g8" style="width: 100%">
+<span class="section-t">En commun</span>
+<div class="grid3">
+<span class="poster {{ p.c1 }}" style="aspect-ratio: 1"><span>{{ p.a1 }}</span></span>
+<span class="poster {{ p.c2 }}" style="aspect-ratio: 1"><span>{{ p.a2 }}</span></span>
+<span class="poster {{ p.c3 }}" style="aspect-ratio: 1"><span>{{ p.a3 }}</span></span>
+</div>
+</div>
+</div>
+</div>
+<div class="row" style="justify-content: center; gap: 24px; padding-top: 8px">
+<button class="btn g round" onClick="{{ next }}" aria-label="Passer"><i class="ic i-x" aria-hidden="true"></i></button>
+<button class="btn p round" onClick="{{ next }}" aria-label="Dire bonjour" style="width: 76px; height: 76px"><i class="ic i-hand-waving" aria-hidden="true"></i></button>
+<a class="btn g round" href="Conversation.dc.html" aria-label="Envoyer un message"><i class="ic i-chat-circle-dots" aria-hidden="true"></i></a>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), i: 0 }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme;
+    const people = [
+      { name: 'Hana', initial: 'H', color: 'a2', match: '92 %', meta: 'Niv. 11 · Barde · Porto-Novo', bio: 'Toujours partante pour une watch party le samedi soir.', a1: 'Lames du crépuscule', c1: 'p1', a2: 'Mecha Aurora', c2: 'p3', a3: 'Volley Kaze', c3: 'p6' },
+      { name: 'Kofi', initial: 'K', color: 'a6', match: '87 %', meta: 'Niv. 15 · Guerrier · Lomé', bio: 'Champion de quiz, je cherche une guild compétitive.', a1: 'Le Dernier Ronin', c1: 'p6', a2: 'Chroniques du Shogun', c2: 'p1', a3: 'Mecha Aurora', c3: 'p3' },
+      { name: 'Lina', initial: 'L', color: 'a3', match: '81 %', meta: 'Niv. 8 · Mage · Abidjan', bio: 'Fan art tous les vendredis, viens voir mes dessins.', a1: 'Académie Hoshizora', c1: 'p2', a2: 'Esprits de Kyoto', c2: 'p5', a3: "Cuisine d'Edo", c3: 'p4' }
+    ];
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), p: people[this.state.i % people.length], next: () => this.setState({ i: this.state.i + 1 }) };
+  }
+}
+</script>
+</body>
+</html>

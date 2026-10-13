@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Watch party</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Feed.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="stack grow" style="padding: 0 4px"><b class="b9" style="font-size: 18px">Watch party</b><span class="cap muted">Lames du crépuscule · ép. 9</span></span><span class="stackav" style="margin-right: 8px"><span class="av xs a1" aria-hidden="true">A</span><span class="av xs a3" aria-hidden="true">Y</span><span class="av xs a4" aria-hidden="true">+10</span></span></div>
+<div style="padding: 0 16px; flex-shrink: 0" class="stack g8">
+<div class="media center" style="position: relative; height: 200px; border-radius: 18px; border-bottom: 4px solid #0b0c12">
+<span class="badge b-live" style="position: absolute; top: 12px; left: 12px"><i class="ic i-broadcast" aria-hidden="true"></i>Synchronisé · 12 nakama</span>
+<button class="btn round" aria-label="{{ playLabel }}" onClick="{{ togglePlay }}" style="background: #ffffff; color: #3a46c8; border-bottom: 4px solid #b8c0e8"><i class="{{ playIcon }}" aria-hidden="true"></i></button>
+<span class="cap" style="position: absolute; bottom: 12px; right: 12px; color: #c9cde3">[Flux vidéo]</span>
+</div>
+<div class="row g10 cap muted tnum"><span>08:42</span><span class="bar thin grow"><i style="width: 36%"></i></span><span>24:00</span></div>
+</div>
+<div class="main" aria-label="Chat en direct" style="gap: 10px; padding: 10px 16px; justify-content: flex-end">
+<div class="row top g8"><span class="av xs a2" aria-hidden="true">K</span><div class="bubble" style="padding: 8px 12px"><b class="b8 cap c-sakura" style="display: block">Kenji</b>Cette musique d'ouverture, frissons</div></div>
+<div class="row top g8"><span class="av xs a3" aria-hidden="true">Y</span><div class="bubble" style="padding: 8px 12px"><b class="b8 cap" style="display: block; color: var(--primary)">Yuna</b>La scène du pont arrive dans 2 min</div></div>
+<div class="bubble me">Prêt, popcorn en main</div>
+<span class="sys">Aïko a rejoint la watch party</span>
+</div>
+<div class="row g8" style="padding: 0 16px 8px">
+<sc-for list="{{ reactions }}" as="r" hint-placeholder-count="3">
+<button class="chip react" onClick="{{ r.add }}" style="flex: 1; justify-content: center">{{ r.label }} {{ r.count }}</button>
+</sc-for>
+</div>
+<div class="composer">
+<label class="input sunk grow" style="min-height: 44px"><input type="text" placeholder="Écrire aux nakama" aria-label="Écrire dans le chat"><i class="ic s20 i-smiley" aria-hidden="true"></i></label>
+<button class="btn p icon" aria-label="Envoyer" style="min-height: 44px; width: 44px; border-radius: 14px"><i class="ic i-paper-plane-right" aria-hidden="true"></i></button>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), playing: false, counts: { sugoi: 42, kawaii: 18, nani: 27 } }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme; const c = this.state.counts; const pl = this.state.playing;
+    const make = (k, label) => ({ label: label, count: c[k], add: () => { const n = Object.assign({}, this.state.counts); n[k] = n[k] + 1; this.setState({ counts: n }); } });
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'),
+      reactions: [make('sugoi', 'Sugoi'), make('kawaii', 'Kawaii'), make('nani', 'Nani ?!')], playIcon: pl ? 'ic s28 i-pause' : 'ic s28 i-play', playLabel: pl ? 'Pause' : 'Lecture', togglePlay: () => this.setState({ playing: !this.state.playing }) };
+  }
+}
+</script>
+</body>
+</html>

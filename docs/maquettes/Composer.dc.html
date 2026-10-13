@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Nouvelle publication</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Feed.dc.html" aria-label="Fermer"><i class="ic i-x" aria-hidden="true"></i></a><span class="title">Nouvelle publication</span><a class="btn p sm" href="Feed.dc.html">Publier</a></div>
+<div class="main" style="gap: 14px; padding: 6px 16px 12px">
+<div class="row g10"><span class="av a5" aria-hidden="true">R</span><div class="stack g4 grow"><b class="b8 body">Ren</b><button class="chip" style="min-height: 32px; padding: 0 10px; align-self: flex-start"><i class="ic s16 i-globe" aria-hidden="true"></i>Public<i class="ic s16 i-caret-right" aria-hidden="true"></i></button></div></div>
+<label class="stack g4"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Texte de la publication</span><textarea rows="4" style="border: none; outline: none; background: none; resize: none; font-family: inherit; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--ink); padding: 0">Ma théorie sur le mentor : tout était annoncé dès l'épisode 3. Je vous explique en image.</textarea></label>
+<div class="poster wide p5" style="aspect-ratio: auto; height: 160px"><span class="row g6"><i class="ic s18 i-image" aria-hidden="true"></i>theorie-mentor.png</span><button class="ib" aria-label="Retirer l'image" style="position: absolute; top: 6px; right: 6px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,.45); color: #ffffff"><i class="ic s18 i-x" aria-hidden="true"></i></button></div>
+<div class="row g8 wrap"><span class="chip on" style="min-height: 36px"><i class="ic i-television" aria-hidden="true"></i>Lames du crépuscule</span><button class="chip" style="min-height: 36px"><i class="ic i-plus" aria-hidden="true"></i>Tag</button></div>
+<div class="card tight">
+<div class="row g10"><i class="ic i-eye-slash c-sakura" aria-hidden="true"></i><span class="stack g4 grow"><b class="b8 sm">Contient un spoiler</b><span class="cap muted">Masqué pour ceux qui n'y sont pas encore</span></span><button class="{{ spoilerCls }}" role="switch" aria-checked="{{ spoiler }}" aria-label="Contient un spoiler" onClick="{{ toggleSpoiler }}"></button></div>
+<sc-if value="{{ spoiler }}" hint-placeholder-val="{{ true }}">
+<div class="row g8"><span class="sm muted grow">Jusqu'à l'épisode</span><button class="chip" style="min-height: 36px" aria-label="Diminuer">−</button><b class="t3 tnum" style="min-width: 32px; text-align: center">12</b><button class="chip" style="min-height: 36px" aria-label="Augmenter">+</button></div>
+</sc-if>
+</div>
+<div class="row g8" style="padding: 8px 12px; border-radius: 14px; background: var(--gold-soft); color: var(--gold-ink)"><i class="ic s18 i-lightning" aria-hidden="true"></i><span class="cap b8">+10 EXP · compte pour le défi de l'arc</span></div>
+</div>
+<div class="row between" style="padding: 8px 12px 30px; background: var(--surface); border-top: 2px solid var(--border)">
+<div class="row g4 c-primary"><button class="ib" aria-label="Ajouter une image"><i class="ic i-image" aria-hidden="true"></i></button><button class="ib" aria-label="Ajouter un GIF"><i class="ic i-gif" aria-hidden="true"></i></button><button class="ib" aria-label="Ajouter un hashtag"><i class="ic i-hash" aria-hidden="true"></i></button><button class="ib" aria-label="Ajouter un sondage"><i class="ic i-sliders-horizontal" aria-hidden="true"></i></button></div>
+<span class="lbl muted tnum">88 / 500</span>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), spoiler: true }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; const s = this.state.spoiler; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), spoiler: s, spoilerCls: s ? 'toggle on' : 'toggle', toggleSpoiler: () => this.setState({ spoiler: !this.state.spoiler }) }; }
+}
+</script>
+</body>
+</html>

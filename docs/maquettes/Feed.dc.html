@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Feed Tomodachi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><span class="logo grow">Tomodachi</span><a class="ib" href="Explorer.dc.html" aria-label="Rechercher"><i class="ic i-magnifying-glass" aria-hidden="true"></i></a><a class="ib" href="Notifications.dc.html" aria-label="Notifications, 3 nouvelles"><i class="ic i-bell" aria-hidden="true"></i><span class="dot"></span></a></div>
+<div class="main" style="gap: 12px; padding: 4px 16px 0">
+<a class="card primary tight" href="Arc.dc.html">
+<div class="row between"><span class="lbl" style="letter-spacing: 0.06em; opacity: 0.85">ARC DE SAISON</span><span class="cap" style="opacity: 0.85">3 j restants</span></div>
+<span class="t3">L'Automne des Yokai</span>
+<span class="bar exp"><i style="width: 70%"></i></span>
+<span class="cap" style="opacity: 0.9">Défi : 7 / 10 critiques publiées</span>
+</a>
+<div class="row g8" role="tablist" aria-label="Filtrer le feed"><button class="chip on" role="tab" aria-selected="true">Pour toi</button><button class="chip" role="tab" aria-selected="false">Nakama</button><button class="chip" role="tab" aria-selected="false">Guilds</button><button class="chip" role="tab" aria-selected="false">Lives</button></div>
+<article class="card">
+<div class="row g10">
+<a class="av a1" href="ProfilMembre.dc.html" aria-label="Profil d'Aïko">A</a>
+<div class="stack g4 grow"><div class="row g6"><b class="b8 body">Aïko</b><span class="badge b-gold">Niv. 14 · Mage</span></div><span class="cap muted">il y a 2 h · Lames du crépuscule</span></div>
+<a class="ib" href="Signaler.dc.html" aria-label="Plus d'options" style="color: var(--ink-muted)"><i class="ic i-dots-three" aria-hidden="true"></i></a>
+</div>
+<p class="body">Cet épisode m'a retourné le cerveau. Personne n'avait vu venir le twist final.</p>
+<sc-if value="{{ hidden }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ reveal }}" class="center" style="min-height: 84px; gap: 4px; border-radius: 14px; border: 2px dashed var(--border-depth); background: var(--surface-sunken); color: var(--ink); font-family: inherit; cursor: pointer"><span class="row g6 b8 sm"><i class="ic s20 i-eye-slash" aria-hidden="true"></i>Spoiler épisode 12</span><span class="cap muted">Tu en es à l'épisode 8 · Toucher pour révéler</span></button>
+</sc-if>
+<sc-if value="{{ shown }}" hint-placeholder-val="{{ false }}">
+<p class="sm" style="padding: 12px; border-radius: 14px; background: var(--sakura-soft); color: var(--sakura-ink)">Le mentor était le roi démon depuis le début.</p>
+</sc-if>
+<div class="row g8">
+<button class="{{ reactCls }}" aria-pressed="{{ reacted }}" onClick="{{ react }}"><i class="{{ reactIcon }}" aria-hidden="true"></i>Sugoi {{ reactCount }}</button>
+<a class="chip" href="Publication.dc.html" aria-label="24 commentaires"><i class="ic i-chat-circle" aria-hidden="true"></i>24</a>
+<button class="chip" aria-label="Repartager, 9 partages"><i class="ic i-repeat" aria-hidden="true"></i>9</button>
+</div>
+</article>
+<article class="card">
+<div class="row g10">
+<a class="av a2" href="ProfilMembre.dc.html" aria-label="Profil de Kenji">K</a>
+<div class="stack g4 grow"><b class="b8 body">Kenji</b><span class="cap muted">il y a 20 min · Guild Sakura Ronin</span></div>
+</div>
+<p class="body">Watch party ce soir 21 h pour l'épisode 9, qui est chaud ?</p>
+<a class="btn s block" href="WatchParty.dc.html"><i class="ic i-popcorn" aria-hidden="true"></i>Rejoindre la watch party</a>
+</article>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab on" href="Feed.dc.html" aria-current="page"><i class="ic i-house-fill" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab" href="Profil.dc.html"><i class="ic i-user" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), revealed: false, reacted: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme; const r = this.state.reacted;
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'),
+      hidden: !this.state.revealed, shown: this.state.revealed, reveal: () => this.setState({ revealed: true }),
+      reacted: r, reactCls: r ? 'chip react on' : 'chip react', reactIcon: r ? 'ic i-fire-fill' : 'ic i-fire', reactCount: r ? 129 : 128, react: () => this.setState({ reacted: !this.state.reacted }) };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Signaler un contenu</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" aria-hidden="true"><span class="logo grow">Tomodachi</span></div>
+<div class="main" aria-hidden="true" style="padding: 4px 16px 0">
+<div class="card"><div class="row g10"><span class="av a1">A</span><div class="stack g4 grow"><b class="b8 body">Aïko</b><span class="cap muted">il y a 2 h</span></div></div><p class="body">Cet épisode m'a retourné le cerveau. Personne n'avait vu venir le twist final.</p></div>
+</div>
+<div class="scrim">
+<div class="sheet" role="dialog" aria-label="Signaler cette publication">
+<span class="grabber"></span>
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<div class="row between"><h2 class="t3">Signaler cette publication</h2><a class="ib" href="Feed.dc.html" aria-label="Fermer"><i class="ic i-x" aria-hidden="true"></i></a></div>
+<p class="sm muted">Ton signalement reste anonyme. Choisis la raison :</p>
+<div class="stack g8" role="radiogroup" aria-label="Raison du signalement">
+<sc-for list="{{ reasons }}" as="r" hint-placeholder-count="5">
+<button class="{{ r.cls }}" role="radio" aria-checked="{{ r.on }}" onClick="{{ r.pick }}" style="flex-direction: row; align-items: center; gap: 12px; padding: 10px 12px; font-family: inherit; text-align: left; cursor: pointer; width: 100%; border-bottom-width: 2px"><i class="{{ r.icon }}" aria-hidden="true"></i><span class="grow b8 sm">{{ r.label }}</span><span class="center" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border-depth); box-sizing: border-box; background: {{ r.dot }}"></span></button>
+</sc-for>
+</div>
+<button class="btn p block" onClick="{{ send }}">Envoyer le signalement</button>
+<div class="grid2"><button class="btn g sm"><i class="ic i-eye-slash" aria-hidden="true"></i>Masquer</button><button class="btn g sm" style="color: var(--danger)"><i class="ic i-prohibit" aria-hidden="true"></i>Bloquer Aïko</button></div>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div class="center" style="gap: 10px; padding: 12px 0">
+<img class="kami" src="/_blob/1df6506d2e5adfc222b3f48ccc4a05a9" width="110" height="103" alt="Kami-sama">
+<h2 class="t2">Merci, nakama</h2>
+<p class="sm muted">Kami-sama examine ce contenu. Tu seras prévenu de la décision.</p>
+</div>
+<a class="btn p block" href="Feed.dc.html">Retour au feed</a>
+</sc-if>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), picked: 'spoiler', sent: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme;
+    const list = [['spoiler', 'Spoiler non signalé', 'ic s20 i-eye-slash'], ['spam', 'Spam ou bot', 'ic s20 i-warning'], ['harcelement', 'Harcèlement', 'ic s20 i-prohibit'], ['choquant', 'Contenu choquant', 'ic s20 i-flag'], ['faux', 'Faux compte', 'ic s20 i-user-circle']];
+    const reasons = list.map((x) => { const on = this.state.picked === x[0]; return { label: x[1], icon: x[2], on: on, cls: on ? 'card sel' : 'card', dot: on ? 'var(--primary)' : 'transparent', pick: () => this.setState({ picked: x[0] }) }; });
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), reasons: reasons, sent: this.state.sent, notSent: !this.state.sent, send: () => this.setState({ sent: true }) };
+  }
+}
+</script>
+</body>
+</html>

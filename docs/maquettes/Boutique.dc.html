@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Boutique</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Profil.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Boutique</span><span class="badge b-gold tnum" style="margin-right: 8px; font-size: 14px; padding: 6px 10px"><i class="ic s18 i-coin" aria-hidden="true"></i>{{ coins }}</span></div>
+<div class="main" style="gap: 14px; padding: 4px 16px 0">
+<div class="segtabs" role="tablist" aria-label="Catégories"><button class="on" role="tab" aria-selected="true">Cadres</button><button role="tab" aria-selected="false">Titres</button><button role="tab" aria-selected="false">Thèmes</button></div>
+<div class="card primary" style="flex-direction: row; align-items: center; gap: 14px">
+<span class="center" style="width: 64px; height: 64px; flex-shrink: 0; border-radius: 50%; border: 5px solid var(--gold); background: var(--primary-depth)"><i class="ic s28 i-ghost" aria-hidden="true"></i></span>
+<span class="stack g4 grow"><span class="lbl" style="opacity: 0.85">ÉDITION LIMITÉE</span><b class="t3">Pack Automne des Yokai</b><span class="cap" style="opacity: 0.9">Cadre, titre et thème · 3 j restants</span></span>
+<button class="btn gold sm tnum"><i class="ic i-coin" aria-hidden="true"></i>600</button>
+</div>
+<div class="grid2">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="4">
+<div class="card tight" style="align-items: center; text-align: center">
+<span style="width: 64px; height: 64px; border-radius: 50%; border: 5px solid {{ it.ring }}; background: var(--surface-sunken); box-sizing: border-box"></span>
+<b class="b8 sm">{{ it.name }}</b>
+<button class="{{ it.cls }}" onClick="{{ it.buy }}" style="width: 100%">{{ it.label }}</button>
+</div>
+</sc-for>
+</div>
+<p class="cap muted" style="text-align: center">Gagne des pièces en relevant les défis et en montant de niveau.</p>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab" href="Feed.dc.html"><i class="ic i-house" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab on" href="Profil.dc.html"><i class="ic i-user-fill" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), coins: 1250, owned: { lune: true } }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() {
+    const t = this.state.theme;
+    const list = [['lune', 'Lune rousse', 'var(--gold)', 350], ['sakura', 'Pétales de sakura', 'var(--sakura)', 400], ['nuit', 'Nuit indigo', 'var(--primary)', 300], ['jade', 'Jade', 'var(--success)', 250]];
+    const items = list.map((x) => { const own = !!this.state.owned[x[0]]; return { name: x[1], ring: x[2], cls: own ? 'btn g sm' : 'btn gold sm', label: own ? 'Possédé' : x[3] + ' pièces', buy: () => { if (this.state.owned[x[0]] || this.state.coins < x[3]) return; this.setState({ coins: this.state.coins - x[3], owned: Object.assign({}, this.state.owned, { [x[0]]: true }) }); } }; });
+    return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), items: items, coins: this.state.coins.toLocaleString('fr-FR') };
+  }
+}
+</script>
+</body>
+</html>

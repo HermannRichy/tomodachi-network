@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Appel vidéo</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen media">
+<div class="island"></div>
+<div class="center" style="position: absolute; inset: 0; background: #2a2f4a; gap: 12px" aria-label="Vidéo de Hana">
+<span class="av xl a2" aria-hidden="true" style="width: 140px; height: 140px; font-size: 54px">H</span>
+<span class="cap" style="color: #c9cde3">[Flux vidéo de Hana]</span>
+</div>
+<div class="status white" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="position: relative; z-index: 5; color: #ffffff"><a class="ib" href="Conversation.dc.html" aria-label="Réduire l'appel" style="background: rgba(0,0,0,.3); border-radius: 50%"><i class="ic i-caret-left" aria-hidden="true"></i></a><span class="stack grow" style="padding: 0 8px"><b class="b8 body">Hana</b><span class="cap tnum" style="color: #e1e3fb">12:47</span></span></div>
+<div class="center" style="position: absolute; right: 16px; top: 120px; width: 104px; height: 150px; border-radius: 18px; background: #3a46c8; border: 3px solid #ffffff; z-index: 5; gap: 6px">
+<sc-if value="{{ camOn }}" hint-placeholder-val="{{ true }}"><span class="av m a5" aria-hidden="true">R</span><span class="cap" style="color: #e1e3fb">Toi</span></sc-if>
+<sc-if value="{{ camOff }}" hint-placeholder-val="{{ false }}"><i class="ic s28 i-video-camera-slash" aria-hidden="true" style="color: #ffffff"></i><span class="cap" style="color: #e1e3fb">Caméra coupée</span></sc-if>
+</div>
+<div class="grow"></div>
+<div class="row" style="position: relative; z-index: 5; justify-content: center; gap: 16px; margin: 0 16px 48px; padding: 14px; border-radius: 28px; background: rgba(0,0,0,.4)">
+<button class="btn round glass" aria-label="Couper le micro"><i class="ic i-microphone" aria-hidden="true"></i></button>
+<button class="{{ camCls }}" aria-pressed="{{ camOff }}" onClick="{{ toggleCam }}" aria-label="Couper la caméra"><i class="{{ camIcon }}" aria-hidden="true"></i></button>
+<button class="btn round glass" aria-label="Retourner la caméra"><i class="ic i-camera-rotate" aria-hidden="true"></i></button>
+<a class="btn round hang" href="Messages.dc.html" aria-label="Raccrocher"><i class="ic i-phone-x" aria-hidden="true"></i></a>
+</div>
+<div class="home white"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored(), camOff: false }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; const off = this.state.camOff; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark'), camOff: off, camOn: !off, camCls: off ? 'btn round g' : 'btn round glass', camIcon: off ? 'ic i-video-camera-slash' : 'ic i-video-camera', toggleCam: () => this.setState({ camOff: !this.state.camOff }) }; }
+}
+</script>
+</body>
+</html>

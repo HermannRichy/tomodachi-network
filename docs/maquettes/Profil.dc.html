@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Mon profil</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div style="background: var(--primary); color: var(--on-primary); border-bottom: 6px solid var(--primary-depth); border-radius: 0 0 28px 28px; flex-shrink: 0">
+<div class="status inv" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="min-height: 44px; padding-top: 0"><span class="grow"></span><a class="ib" href="ModifierProfil.dc.html" aria-label="Modifier le profil"><i class="ic i-pencil-simple" aria-hidden="true"></i></a><a class="ib" href="Parametres.dc.html" aria-label="Paramètres"><i class="ic i-gear-six" aria-hidden="true"></i></a></div>
+<div class="center" style="gap: 6px; padding: 0 20px 18px">
+<span class="av xl a1 ring" aria-hidden="true">R</span>
+<h1 class="t1" style="margin-top: 4px">Ren</h1>
+<p class="sm" style="opacity: 0.85">@ren_sensei · Cotonou</p>
+<div class="row g6"><span class="badge" style="background: var(--primary-depth); color: var(--on-primary)"><i class="ic i-target" aria-hidden="true"></i>Stratège</span><span class="badge b-off">Senpai</span></div>
+<div class="stack g4" style="width: 100%; margin-top: 8px">
+<span class="row between lbl tnum"><span>Niveau 12</span><span style="opacity: 0.85">1 280 / 2 000 EXP</span></span>
+<span class="bar exp"><i style="width: 64%"></i></span>
+</div>
+</div>
+</div>
+<div class="main" style="gap: 14px; padding: 16px 16px 0">
+<div class="grid2">
+<a class="card tight" href="Watchlist.dc.html"><b class="t2 c-primary tnum">148</b><span class="sm muted">Animes vus</span></a>
+<a class="card tight" href="ProfilMembre.dc.html"><b class="t2 c-primary tnum">320</b><span class="sm muted">Nakama</span></a>
+<div class="card tight"><b class="t2 c-sakura tnum">4 820</b><span class="sm muted">Power level</span></div>
+<a class="card tight" href="Cartes.dc.html"><b class="t2 c-sakura tnum">37</b><span class="sm muted">Cartes collectées</span></a>
+</div>
+<div class="list">
+<a class="li" href="Watchlist.dc.html"><i class="ic lead i-television" aria-hidden="true"></i><span class="grow b8 body">Mon tracker de visionnage</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+<a class="li" href="Boutique.dc.html"><i class="ic lead i-storefront" aria-hidden="true"></i><span class="grow b8 body">Boutique</span><span class="badge b-gold"><i class="ic i-coin" aria-hidden="true"></i>1 250</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+<a class="li" href="Senpai.dc.html"><i class="ic lead i-graduation-cap" aria-hidden="true"></i><span class="grow b8 body">Mes kohai</span><span class="count">2</span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+</div>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab" href="Feed.dc.html"><i class="ic i-house" aria-hidden="true"></i>Accueil</a>
+<a class="tab" href="Messages.dc.html"><i class="ic i-chat-circle-dots" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab on" href="Profil.dc.html" aria-current="page"><i class="ic i-user-fill" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

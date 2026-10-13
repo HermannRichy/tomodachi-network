@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Messages</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar" style="padding-left: 16px"><h1 class="title" style="font-size: 28px; line-height: 34px; padding: 0">Messages</h1><a class="ib" href="Affinites.dc.html" aria-label="Trouver des nakama"><i class="ic i-users-three" aria-hidden="true"></i></a><button class="ib" aria-label="Nouveau message"><i class="ic i-pencil-simple" aria-hidden="true"></i></button></div>
+<div class="main" style="gap: 12px; padding: 4px 16px 0">
+<label class="input sunk"><i class="ic s20 i-magnifying-glass" aria-hidden="true"></i><input type="search" placeholder="Chercher un nakama" aria-label="Chercher une conversation"></label>
+<div class="card gold tight" style="flex-direction: row; align-items: center; gap: 12px">
+<img class="kami" src="/_blob/1df6506d2e5adfc222b3f48ccc4a05a9" width="56" height="53" alt="">
+<div class="stack g4 grow"><div class="row g6"><b class="b8 sm">Kami-sama</b><span class="badge b-off">Officiel</span></div><p class="sm">L'arc de l'Automne des Yokai a commencé. Relève les défis pour ton titre !</p></div>
+</div>
+<div class="list">
+<a class="li" href="Conversation.dc.html"><span class="av m a1 online" aria-hidden="true">A</span><span class="stack g4 grow"><span class="row between"><b class="b8 body">Aïko</b><span class="cap c-primary b8">21:04</span></span><span class="sm b8 ellipsis">Tu as vu la fin de l'épisode 12 ?</span></span><span class="count" aria-label="2 non lus">2</span></a>
+<a class="li" href="Conversation.dc.html"><span class="center" style="width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; background: var(--sakura); color: var(--on-sakura)"><i class="ic i-shield-fill" aria-hidden="true"></i></span><span class="stack g4 grow"><span class="row between"><b class="b8 body">Sakura Ronin</b><span class="cap muted">20:41</span></span><span class="sm muted ellipsis">Sora : Je suis là à 20 h, préparez-vous.</span></span></a>
+<a class="li" href="AppelVocal.dc.html"><span class="av m a2" aria-hidden="true">K</span><span class="stack g4 grow"><span class="row between"><b class="b8 body">Kenji</b><span class="cap muted">Hier</span></span><span class="sm muted ellipsis row g4"><i class="ic s16 i-phone" aria-hidden="true"></i>Appel vocal · 18 min</span></span></a>
+<a class="li" href="Conversation.dc.html"><span class="av m a3" aria-hidden="true">Y</span><span class="stack g4 grow"><span class="row between"><b class="b8 body">Yuna · ta kohai</b><span class="cap muted">Lun.</span></span><span class="sm muted ellipsis">Merci senpai pour la reco !</span></span></a>
+<a class="li" href="AppelVideo.dc.html"><span class="av m a2" aria-hidden="true">H</span><span class="stack g4 grow"><span class="row between"><b class="b8 body">Hana</b><span class="cap muted">Dim.</span></span><span class="sm muted ellipsis row g4"><i class="ic s16 i-video-camera" aria-hidden="true"></i>Appel vidéo · 42 min</span></span></a>
+</div>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<a class="tab" href="Feed.dc.html"><i class="ic i-house" aria-hidden="true"></i>Accueil</a>
+<a class="tab on" href="Messages.dc.html" aria-current="page"><i class="ic i-chat-circle-dots-fill" aria-hidden="true"></i>Messages</a>
+<a class="tab-pub" href="Composer.dc.html" aria-label="Publier"><i class="ic i-plus" aria-hidden="true"></i></a>
+<a class="tab" href="Guild.dc.html"><i class="ic i-shield" aria-hidden="true"></i>Guild</a>
+<a class="tab" href="Profil.dc.html"><i class="ic i-user" aria-hidden="true"></i>Profil</a>
+</nav>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

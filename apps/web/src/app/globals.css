@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@import '@tomodachi/design-tokens/theme.css';
+
+/* Les sources Tailwind des packages partagés, si on y met des composants plus tard. */
+@source '../../../../packages';

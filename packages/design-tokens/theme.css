@@ -1,0 +1,177 @@
+/* Généré par scripts/build.mjs depuis tokens.json : ne pas modifier à la main. */
+
+:root {
+  --tomo-background: #f6f7fc;
+  --tomo-surface: #ffffff;
+  --tomo-surface-sunken: #e9ebf4;
+  --tomo-border: #e3e5f0;
+  --tomo-border-depth: #d3d6e6;
+  --tomo-ink: #1b1e2e;
+  --tomo-ink-muted: #565b78;
+  --tomo-primary: #3a46c8;
+  --tomo-primary-depth: #2a3290;
+  --tomo-on-primary: #ffffff;
+  --tomo-primary-soft: #e6e8fb;
+  --tomo-primary-ink: #2a3290;
+  --tomo-sakura: #c2416a;
+  --tomo-sakura-depth: #8f2a4c;
+  --tomo-on-sakura: #ffffff;
+  --tomo-sakura-soft: #fce3ea;
+  --tomo-sakura-ink: #7a2240;
+  --tomo-gold: #ffc531;
+  --tomo-on-gold: #6b4a00;
+  --tomo-gold-depth: #e5a400;
+  --tomo-gold-soft: #fff1d0;
+  --tomo-gold-ink: #6b4a00;
+  --tomo-success: #2e9d6b;
+  --tomo-success-soft: #dcf2e7;
+  --tomo-success-ink: #1f6b49;
+  --tomo-danger: #c8323b;
+  --tomo-on-danger: #ffffff;
+  --tomo-danger-soft: #fde4e5;
+  --tomo-danger-ink: #8a1c23;
+  --tomo-slime: #3fb6f5;
+  --tomo-slime-depth: #1e8fd6;
+  color-scheme: light;
+}
+
+.dark {
+  --tomo-background: #12131c;
+  --tomo-surface: #1b1d2a;
+  --tomo-surface-sunken: #242738;
+  --tomo-border: #2c2f42;
+  --tomo-border-depth: #3a3e55;
+  --tomo-ink: #e9eaf3;
+  --tomo-ink-muted: #a3a7c2;
+  --tomo-primary: #8e98ff;
+  --tomo-primary-depth: #5f69d9;
+  --tomo-on-primary: #12142b;
+  --tomo-primary-soft: #262a4a;
+  --tomo-primary-ink: #c9cdff;
+  --tomo-sakura: #f28aa3;
+  --tomo-sakura-depth: #c2587a;
+  --tomo-on-sakura: #2b0f18;
+  --tomo-sakura-soft: #3a1f2a;
+  --tomo-sakura-ink: #ffc2d2;
+  --tomo-gold: #ffc531;
+  --tomo-on-gold: #4a3300;
+  --tomo-gold-depth: #c98f00;
+  --tomo-gold-soft: #3a2f12;
+  --tomo-gold-ink: #ffe08a;
+  --tomo-success: #5ccb97;
+  --tomo-success-soft: #173828;
+  --tomo-success-ink: #a8e8c8;
+  --tomo-danger: #ff8a8f;
+  --tomo-on-danger: #2b0f12;
+  --tomo-danger-soft: #3a1a1d;
+  --tomo-danger-ink: #ffc2c5;
+  --tomo-slime: #3fb6f5;
+  --tomo-slime-depth: #1e8fd6;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --tomo-background: #12131c;
+    --tomo-surface: #1b1d2a;
+    --tomo-surface-sunken: #242738;
+    --tomo-border: #2c2f42;
+    --tomo-border-depth: #3a3e55;
+    --tomo-ink: #e9eaf3;
+    --tomo-ink-muted: #a3a7c2;
+    --tomo-primary: #8e98ff;
+    --tomo-primary-depth: #5f69d9;
+    --tomo-on-primary: #12142b;
+    --tomo-primary-soft: #262a4a;
+    --tomo-primary-ink: #c9cdff;
+    --tomo-sakura: #f28aa3;
+    --tomo-sakura-depth: #c2587a;
+    --tomo-on-sakura: #2b0f18;
+    --tomo-sakura-soft: #3a1f2a;
+    --tomo-sakura-ink: #ffc2d2;
+    --tomo-gold: #ffc531;
+    --tomo-on-gold: #4a3300;
+    --tomo-gold-depth: #c98f00;
+    --tomo-gold-soft: #3a2f12;
+    --tomo-gold-ink: #ffe08a;
+    --tomo-success: #5ccb97;
+    --tomo-success-soft: #173828;
+    --tomo-success-ink: #a8e8c8;
+    --tomo-danger: #ff8a8f;
+    --tomo-on-danger: #2b0f12;
+    --tomo-danger-soft: #3a1a1d;
+    --tomo-danger-ink: #ffc2c5;
+    --tomo-slime: #3fb6f5;
+    --tomo-slime-depth: #1e8fd6;
+    color-scheme: dark;
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--tomo-background);
+  --color-surface: var(--tomo-surface);
+  --color-surface-sunken: var(--tomo-surface-sunken);
+  --color-border: var(--tomo-border);
+  --color-border-depth: var(--tomo-border-depth);
+  --color-ink: var(--tomo-ink);
+  --color-ink-muted: var(--tomo-ink-muted);
+  --color-primary: var(--tomo-primary);
+  --color-primary-depth: var(--tomo-primary-depth);
+  --color-on-primary: var(--tomo-on-primary);
+  --color-primary-soft: var(--tomo-primary-soft);
+  --color-primary-ink: var(--tomo-primary-ink);
+  --color-sakura: var(--tomo-sakura);
+  --color-sakura-depth: var(--tomo-sakura-depth);
+  --color-on-sakura: var(--tomo-on-sakura);
+  --color-sakura-soft: var(--tomo-sakura-soft);
+  --color-sakura-ink: var(--tomo-sakura-ink);
+  --color-gold: var(--tomo-gold);
+  --color-on-gold: var(--tomo-on-gold);
+  --color-gold-depth: var(--tomo-gold-depth);
+  --color-gold-soft: var(--tomo-gold-soft);
+  --color-gold-ink: var(--tomo-gold-ink);
+  --color-success: var(--tomo-success);
+  --color-success-soft: var(--tomo-success-soft);
+  --color-success-ink: var(--tomo-success-ink);
+  --color-danger: var(--tomo-danger);
+  --color-on-danger: var(--tomo-on-danger);
+  --color-danger-soft: var(--tomo-danger-soft);
+  --color-danger-ink: var(--tomo-danger-ink);
+  --color-slime: var(--tomo-slime);
+  --color-slime-depth: var(--tomo-slime-depth);
+  --font-sans: var(--font-nunito), 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+  --text-display: 40px;
+  --text-display--line-height: 44px;
+  --text-display--font-weight: 900;
+  --text-title-1: 28px;
+  --text-title-1--line-height: 34px;
+  --text-title-1--font-weight: 900;
+  --text-title-2: 22px;
+  --text-title-2--line-height: 28px;
+  --text-title-2--font-weight: 800;
+  --text-title-3: 18px;
+  --text-title-3--line-height: 24px;
+  --text-title-3--font-weight: 800;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-body--font-weight: 600;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--font-weight: 600;
+  --text-button: 16px;
+  --text-button--line-height: 20px;
+  --text-button--font-weight: 800;
+  --text-label: 13px;
+  --text-label--line-height: 16px;
+  --text-label--font-weight: 800;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 700;
+}

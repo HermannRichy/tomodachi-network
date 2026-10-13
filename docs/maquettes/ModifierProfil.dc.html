@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Modifier le profil</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Profil.dc.html" aria-label="Annuler"><i class="ic i-x" aria-hidden="true"></i></a><span class="title">Modifier le profil</span><a class="btn p sm" href="Profil.dc.html">Enregistrer</a></div>
+<div class="main" style="gap: 14px; padding: 4px 16px 24px">
+<div class="center" style="gap: 8px">
+<div style="position: relative"><span class="av xl a1 ring" aria-hidden="true">R</span><button class="btn p icon" aria-label="Changer la photo" style="position: absolute; right: -6px; bottom: -4px; width: 40px; min-height: 40px; border-radius: 50%"><i class="ic s18 i-camera" aria-hidden="true"></i></button></div>
+<button class="btn ghost sm"><i class="ic i-image" aria-hidden="true"></i>Changer la bannière</button>
+</div>
+<label class="field"><span class="lab">Nom affiché</span><span class="input"><input type="text" value="Ren" aria-label="Nom affiché"></span></label>
+<label class="field"><span class="lab">Pseudo</span><span class="input"><span class="b8 c-primary">@</span><input type="text" value="ren_sensei" aria-label="Pseudo"></span></label>
+<label class="field"><span class="lab">Bio</span><span class="input focus" style="align-items: flex-start; padding: 12px 14px"><textarea rows="3" aria-label="Bio">Stratège à Cotonou. Théories sur les shōnen, critiques sans spoiler.</textarea></span><span class="hint tnum" style="text-align: right">68 / 160</span></label>
+<a class="li card tight" href="Classe.dc.html" style="flex-direction: row; min-height: 56px"><i class="ic lead i-target" aria-hidden="true"></i><span class="stack g4 grow"><span class="cap muted">Classe</span><b class="b8 body">Stratège</b></span><i class="ic chev i-caret-right" aria-hidden="true"></i></a>
+<div class="field"><span class="lab">Cadre de profil</span>
+<div class="row g10" role="radiogroup" aria-label="Cadre de profil">
+<button role="radio" aria-checked="true" aria-label="Lune rousse" class="center" style="width: 56px; height: 56px; border-radius: 50%; border: 4px solid var(--gold); background: var(--surface); outline: 3px solid var(--primary); outline-offset: 2px; cursor: pointer"></button>
+<button role="radio" aria-checked="false" aria-label="Sakura" class="center" style="width: 56px; height: 56px; border-radius: 50%; border: 4px solid var(--sakura); background: var(--surface); cursor: pointer"></button>
+<button role="radio" aria-checked="false" aria-label="Indigo" class="center" style="width: 56px; height: 56px; border-radius: 50%; border: 4px solid var(--primary); background: var(--surface); cursor: pointer"></button>
+<a class="center" href="Boutique.dc.html" aria-label="Plus de cadres dans la boutique" style="width: 56px; height: 56px; border-radius: 50%; border: 2px dashed var(--border-depth); color: var(--ink-muted)"><i class="ic i-plus" aria-hidden="true"></i></a>
+</div>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

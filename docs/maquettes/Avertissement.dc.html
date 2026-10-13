@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Avertissement de Kami-sama</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="main" style="gap: 16px; padding: 20px 20px 40px">
+<div class="center" style="gap: 10px">
+<div style="position: relative"><img class="kami" src="/_blob/1df6506d2e5adfc222b3f48ccc4a05a9" width="140" height="131" alt="Kami-sama"><span class="center" style="position: absolute; right: -6px; top: 34px; width: 40px; height: 40px; border-radius: 50%; background: var(--danger); color: var(--on-danger); border: 3px solid var(--bg)"><i class="ic s20 i-warning" aria-hidden="true"></i></span></div>
+<p class="lbl c-danger" style="letter-spacing: 0.08em">AVERTISSEMENT</p>
+<h1 class="t1">Kami-sama a parlé</h1>
+<div class="row g6" aria-label="Avertissement 1 sur 3"><i style="width: 28px; height: 8px; border-radius: 999px; background: var(--danger)"></i><i style="width: 28px; height: 8px; border-radius: 999px; background: var(--surface-sunken)"></i><i style="width: 28px; height: 8px; border-radius: 999px; background: var(--surface-sunken)"></i><span class="cap muted" style="margin-left: 4px">1 sur 3</span></div>
+</div>
+<div class="card" style="background: var(--danger-soft); border-color: var(--danger-soft); border-bottom-color: var(--danger); color: var(--danger-ink)">
+<b class="b8 body">Publication retirée</b>
+<p class="sm">Ta publication du 12 octobre contenait un spoiler de l'épisode 12 sans être signalée comme telle.</p>
+</div>
+<div class="list">
+<div class="li"><i class="ic lead i-hourglass" aria-hidden="true"></i><span class="grow sm"><b class="b8">Pendant 24 h</b>, tes publications passent en relecture avant d'être visibles.</span></div>
+<div class="li"><i class="ic lead i-eye-slash" aria-hidden="true"></i><span class="grow sm">Pense à activer <b class="b8">Contient un spoiler</b> quand tu publies.</span></div>
+<div class="li"><i class="ic lead i-info" aria-hidden="true"></i><span class="grow sm">Au 3<sup>e</sup> avertissement, le compte est suspendu 7 jours.</span></div>
+</div>
+<div class="stack g8 push">
+<a class="btn p block" href="Feed.dc.html">J'ai compris</a>
+<a class="btn ghost" href="#contester" style="align-self: center">Contester la décision</a>
+</div>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>

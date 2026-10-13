@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Publication et commentaires</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./tomo.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+body{margin:0}
+a{color:var(--primary)}a:hover{color:var(--primary-depth)}
+</style>
+</helmet>
+<div class="tomo board" data-theme="{{ theme }}">
+<div class="switch" role="group" aria-label="Thème des maquettes"><button class="{{ lightCls }}" aria-pressed="{{ isLight }}" onClick="{{ toLight }}"><i class="ic s18 i-sun" aria-hidden="true"></i>Clair</button><button class="{{ darkCls }}" aria-pressed="{{ isDark }}" onClick="{{ toDark }}"><i class="ic s18 i-moon" aria-hidden="true"></i>Sombre</button></div>
+<div class="iphone"><i class="key k1"></i><i class="key k2"></i><i class="key k3"></i><i class="key k4"></i>
+<div class="screen">
+<div class="island"></div>
+<div class="status" aria-hidden="true"><span class="tnum">9:41</span><span class="si"><i class="ic i-cell-signal-full"></i><i class="ic i-wifi-high"></i><i class="ic i-battery-full"></i></span></div>
+<div class="appbar"><a class="ib" href="Feed.dc.html" aria-label="Retour"><i class="ic i-arrow-left" aria-hidden="true"></i></a><span class="title">Publication</span><a class="ib" href="Signaler.dc.html" aria-label="Plus d'options"><i class="ic i-dots-three" aria-hidden="true"></i></a></div>
+<div class="main" style="gap: 14px; padding: 4px 16px 12px">
+<article class="stack g10">
+<div class="row g10">
+<a class="av a1" href="ProfilMembre.dc.html" aria-label="Profil d'Aïko">A</a>
+<div class="stack g4 grow"><div class="row g6"><b class="b8 body">Aïko</b><span class="badge b-gold">Niv. 14 · Mage</span></div><span class="cap muted">il y a 2 h · Lames du crépuscule · ép. 12</span></div>
+<button class="btn g sm">Suivre</button>
+</div>
+<p class="body">Cet épisode m'a retourné le cerveau. Personne n'avait vu venir le twist final.</p>
+<div class="row g8 wrap"><span class="badge b-pri"><i class="ic i-hash" aria-hidden="true"></i>LamesDuCrépuscule</span><span class="badge b-sak"><i class="ic i-eye-slash" aria-hidden="true"></i>Spoiler ép. 12</span></div>
+<div class="row g8"><button class="chip react on" aria-pressed="true"><i class="ic i-fire-fill" aria-hidden="true"></i>Sugoi 129</button><button class="chip" aria-label="Enregistrer"><i class="ic i-bookmark-simple" aria-hidden="true"></i></button><button class="chip" aria-label="Partager"><i class="ic i-share-network" aria-hidden="true"></i></button></div>
+</article>
+<div class="divider"></div>
+<div class="row between"><h2 class="t3">24 commentaires</h2><button class="chip" style="min-height: 36px"><i class="ic i-sliders-horizontal" aria-hidden="true"></i>Populaires</button></div>
+<div class="stack g16">
+<div class="row top g10">
+<span class="av s a4" aria-hidden="true">S</span>
+<div class="stack g4 grow">
+<div class="row g6"><b class="b8 sm">Sora</b><span class="badge b-pri">Senpai</span><span class="cap muted">1 h</span></div>
+<p class="sm">Le foreshadowing était là dès l'épisode 3, regardez bien la scène du pont.</p>
+<div class="row g16 cap muted"><button class="row g4 b8" style="border: none; background: none; color: var(--sakura); font-family: inherit; padding: 0; min-height: 32px"><i class="ic s16 i-fire-fill" aria-hidden="true"></i>42</button><button class="b8" style="border: none; background: none; color: var(--ink-muted); font-family: inherit; padding: 0; min-height: 32px">Répondre</button></div>
+<div class="row top g10" style="padding-top: 6px">
+<span class="av xs a1" aria-hidden="true">A</span>
+<div class="stack g4 grow"><div class="row g6"><b class="b8 sm">Aïko</b><span class="cap muted">45 min</span></div><p class="sm">Non, je vais tout revoir ce soir !</p></div>
+</div>
+</div>
+</div>
+<div class="row top g10">
+<span class="av s a3" aria-hidden="true">Y</span>
+<div class="stack g4 grow">
+<div class="row g6"><b class="b8 sm">Yuna</b><span class="cap muted">30 min</span></div>
+<p class="sm">Le studio a mis le paquet sur l'animation du combat final.</p>
+<div class="row g16 cap muted"><button class="row g4 b8" style="border: none; background: none; color: var(--ink-muted); font-family: inherit; padding: 0; min-height: 32px"><i class="ic s16 i-fire" aria-hidden="true"></i>18</button><button class="b8" style="border: none; background: none; color: var(--ink-muted); font-family: inherit; padding: 0; min-height: 32px">Répondre</button></div>
+</div>
+</div>
+</div>
+</div>
+<div class="composer">
+<span class="av s a5" aria-hidden="true">R</span>
+<label class="input sunk grow" style="min-height: 44px"><input type="text" placeholder="Écrire un commentaire" aria-label="Écrire un commentaire"><i class="ic s20 i-gif" aria-hidden="true"></i></label>
+<button class="btn p icon" aria-label="Envoyer" style="min-height: 44px; width: 44px; border-radius: 14px"><i class="ic i-paper-plane-right" aria-hidden="true"></i></button>
+</div>
+<div class="home"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":425,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { theme: this.stored() }; this.onStore = (e) => { if (e.key === 'tomo-theme' && e.newValue) this.setState({ theme: e.newValue === 'dark' ? 'dark' : 'light' }); }; }
+  stored() { try { const v = window.localStorage.getItem('tomo-theme'); if (v) return v === 'dark' ? 'dark' : 'light'; } catch (e) {} return this.props.theme === 'dark' ? 'dark' : 'light'; }
+  componentDidMount() { try { window.addEventListener('storage', this.onStore); } catch (e) {} }
+  componentWillUnmount() { try { window.removeEventListener('storage', this.onStore); } catch (e) {} }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) this.setTheme(this.props.theme); }
+  setTheme(t) { try { window.localStorage.setItem('tomo-theme', t); } catch (e) {} this.setState({ theme: t }); }
+  renderVals() { const t = this.state.theme; return { theme: t, lightCls: t === 'light' ? 'on' : '', darkCls: t === 'dark' ? 'on' : '', isLight: t === 'light', isDark: t === 'dark', toLight: () => this.setTheme('light'), toDark: () => this.setTheme('dark') }; }
+}
+</script>
+</body>
+</html>
